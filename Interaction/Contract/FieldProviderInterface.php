@@ -14,6 +14,8 @@ interface FieldProviderInterface
     public const DATABASE_FIELD_TYPE_STRING = DatabaseFieldTypeEnum::STRING;
     public const DATABASE_FIELD_TYPE_TEXT = DatabaseFieldTypeEnum::TEXT;
 
+    public function getName(): string;
+
     public function getType(): string;
 
     public function getDatabaseType(): DatabaseFieldTypeEnum;

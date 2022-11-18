@@ -27,9 +27,9 @@ class Widget
     protected mixed $id;
 
     /**
-     * @ORM\Column(name="name", type="string")
+     * @ORM\Column(name="type", type="string")
      */
-    protected string $name;
+    protected string $type;
 
     /**
      * @ORM\Column(name="config", type="json", nullable=true, options={"jsonb"=true})
@@ -47,14 +47,22 @@ class Widget
         return $this->id;
     }
 
-    public function getName(): ?string
+    /**
+     * @return string|null
+     */
+    public function getType(): ?string
     {
-        return $this->name;
+        return $this->type;
     }
 
-    public function setName(string $name): self
+    /**
+     * @param string $type
+     *
+     * @return $this
+     */
+    public function setType(string $type): self
     {
-        $this->name = $name;
+        $this->type = $type;
 
         return $this;
     }

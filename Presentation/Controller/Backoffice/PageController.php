@@ -6,7 +6,7 @@ namespace WideMorph\Cms\Bundle\CmsEngineBundle\Presentation\Controller\Backoffic
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Entity\Cms\Page;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Enum\ContentTypeEnum;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\DataSource\CreatePageDataSource;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\DataSource\SelectPageDataSource;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\DomainInteractionInterface;
@@ -58,6 +58,7 @@ class PageController extends AbstractController
         $page = $domainInteraction->getPageService()->findOrThrowPageById($pageId);
         $themeProvider = $domainInteraction->getThemeManagerService()->getThemeProviderByName($page->getTheme());
         $contentBlocks = $domainInteraction->getTwigLayoutService()->getContentBlocks($page);
+        $contentTypes = ContentTypeEnum::cases();
 
         return $this->render(
             '@CmsEngine/backoffice/page/edit.html.twig',
@@ -65,6 +66,7 @@ class PageController extends AbstractController
                 'page' => $page,
                 'themeProvider' => $themeProvider,
                 'contentBlocks' => $contentBlocks,
+                'contentTypes' => $contentTypes,
             ]
         );
     }

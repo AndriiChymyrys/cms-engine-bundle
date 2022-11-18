@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Enum;
 
 use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Entity\Cms\FieldType\JsonType;

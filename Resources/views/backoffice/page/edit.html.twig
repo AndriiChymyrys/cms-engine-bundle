@@ -20,6 +20,7 @@
                 <div class="card-body">
                     <content-block v-for="contents, blockName in {{ contentBlocks|json_encode }}"
                                    :block-title="blockName"
+                                   :content-types="{{ contentTypes|json_encode }}"
                                    :contents="contents"/>
                 </div>
             </div>

@@ -68,5 +68,20 @@
 
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Layout\TwigLayoutServiceInterface"
                  alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Layout\TwigLayoutService"/>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\AvailableContentFactory">
+            <argument type="collection" key="$contentTypes">
+                <argument type="service" key="field"
+                          id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Type\AvailableFieldType"/>
+            </argument>
+        </service>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\AvailableContentFactoryInterface"
+                 alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\AvailableContentFactory"/>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Type\AvailableFieldType">
+            <argument key="$providerRegistry" type="service"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeProviderRegistryInterface"/>
+        </service>
     </services>
 </container>

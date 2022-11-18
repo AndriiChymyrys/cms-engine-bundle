@@ -27,11 +27,6 @@ class Field
     protected mixed $id;
 
     /**
-     * @ORM\Column(name="name", type="string")
-     */
-    protected string $name;
-
-    /**
      * @ORM\Column(name="type", type="string")
      */
     protected string $type;
@@ -64,26 +59,6 @@ class Field
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     *
-     * @return $this
-     */
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
     /**

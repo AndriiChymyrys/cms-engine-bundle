@@ -13,12 +13,19 @@
 
 <script>
 import Content from "./Content";
+import {mapActions} from 'vuex'
 
 export default {
     name: "ContentBlock",
-    props: ['blockTitle', 'contents'],
+    props: ['blockTitle', 'contents', 'contentTypes'],
     components: {
         Content
+    },
+    mounted() {
+        this.setContentTypes(this.contentTypes);
+    },
+    methods: {
+        ...mapActions('cmsEngine', ['setContentTypes'])
     }
 }
 </script>

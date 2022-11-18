@@ -23,6 +23,9 @@
             <argument type="service"
                       key="$twigLayoutService"
                       id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Layout\TwigLayoutServiceInterface"/>
+            <argument type="service"
+                      key="$availableContentFactory"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\AvailableContentFactoryInterface"/>
         </service>
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\DomainInteractionInterface"
                  alias="WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\DomainInteraction"/>

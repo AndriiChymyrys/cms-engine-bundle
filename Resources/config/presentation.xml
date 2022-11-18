@@ -11,6 +11,10 @@
             <tag name="controller.service_arguments"/>
         </service>
 
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Presentation\Controller\Backoffice\Api\ContentController">
+            <tag name="controller.service_arguments"/>
+        </service>
+
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Presentation\Controller\Front\IndexController">
             <tag name="controller.service_arguments"/>
         </service>

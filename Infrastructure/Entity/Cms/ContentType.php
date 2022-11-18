@@ -33,6 +33,16 @@ class ContentType
     protected string $name;
 
     /**
+     * @ORM\Column(name="type", type="string")
+     */
+    protected string $type;
+
+    /**
+     * @ORM\Column(name="config", type="json", nullable=true, options={"jsonb"=true})
+     */
+    protected array $config;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Cms\Field", mappedBy="contentType")
      */
     protected Collection $fields;
@@ -66,6 +76,46 @@ class ContentType
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     *
+     * @return $this
+     */
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getConfig(): array
+    {
+        return $this->config;
+    }
+
+    /**
+     * @param array|null $config
+     *
+     * @return $this
+     */
+    public function setConfig(?array $config): self
+    {
+        $this->config = $config;
 
         return $this;
     }
