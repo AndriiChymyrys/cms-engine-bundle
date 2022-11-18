@@ -1,0 +1,28 @@
+{% extends '@MorphView/layout.html.twig' %}
+
+{% block page_content %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Edit {{ page.name }}</h2>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Content Blocks</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <content-block v-for="contents, blockName in {{ contentBlocks|json_encode }}"
+                                   :block-title="blockName"
+                                   :contents="contents"/>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock page_content %}

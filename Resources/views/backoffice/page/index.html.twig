@@ -1,0 +1,53 @@
+{% extends '@MorphView/layout.html.twig' %}
+
+{% block page_content %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <a href="{{ path('cms_backoffice_create_page') }}" class="btn btn-info">Create</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    Pages
+                </div>
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover text-nowrap">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Url</th>
+                            <th>Layout</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for page in output.sourceData %}
+                            <tr>
+                                <td>{{ page.id }}</td>
+                                <td>{{ page.name }}</td>
+                                <td>{{ page.url }}</td>
+                                <td>{{ page.layout }}</td>
+                                <td>{{ page.status }}</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="#" class="btn btn-danger">Del</a>
+                                        <a href="{{ path('cms_backoffice_edit_page', {pageId: page.id}) }}" class="btn btn-warning">Edit</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock page_content %}

@@ -1,0 +1,11 @@
+{
+    "name": "widemorph/cms-engine-bundle",
+    "autoload": {
+        "psr-4": {
+            "WideMorph\\Cms\\Bundle\\CmsEngineBundle\\": ""
+        }
+    },
+    "require": {
+        "widemorph/cms-default-theme-bundle": "@dev"
+    }
+}

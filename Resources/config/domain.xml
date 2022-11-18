@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeManagerService">
+            <argument key="$providerRegistry" type="service"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeProviderRegistryInterface"/>
+        </service>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeManagerServiceInterface"
+                 alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeManagerService"/>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeProviderRegistry">
+        </service>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeProviderRegistryInterface"
+                 alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeProviderRegistry"/>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\DataSource\CreatePageDataSource" autoconfigure="true">
+            <argument key="$createPageService" type="service"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\CreatePageServiceInterface"/>
+        </service>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\DataSource\SelectPageDataSource" autoconfigure="true">
+            <argument type="service" key="$morphCoreInteraction"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\MorphCoreInteractionInterface"/>
+        </service>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Routing\RouteProvider" autoconfigure="true">
+            <argument key="$frontController"/>
+            <argument type="service" key="$morphCoreInteraction"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\MorphCoreInteractionInterface"/>
+        </service>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\DataSource\CreatePageDataSourceInterface"
+                 alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\DataSource\CreatePageDataSource"/>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\CreatePageService">
+            <argument type="service" key="$entityManager"
+                      id="Doctrine\ORM\EntityManagerInterface"/>
+            <argument type="service" key="$themeManagerService"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeManagerServiceInterface"/>
+        </service>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\CreatePageServiceInterface"
+                 alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\CreatePageService"/>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\PageService">
+            <argument type="service" key="$morphCoreInteraction"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\MorphCoreInteractionInterface"/>
+        </service>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\PageServiceInterface"
+                 alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\PageService"/>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\Content\ContentRender">
+        </service>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\Content\ContentRenderInterface"
+                 alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\Content\ContentRender"/>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Layout\TwigLayoutService">
+            <argument type="service" key="$environment" id="Twig\Environment"/>
+        </service>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Layout\TwigLayoutServiceInterface"
+                 alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Layout\TwigLayoutService"/>
+    </services>
+</container>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="http://symfony.com/schema/routing"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="backoffice_view_page" path="/page" methods="GET"
+           controller="WideMorph\Cms\Bundle\CmsEngineBundle\Presentation\Controller\Backoffice\PageController::index">
+    </route>
+
+    <route id="backoffice_create_page" path="/page/create" methods="GET|POST"
+           controller="WideMorph\Cms\Bundle\CmsEngineBundle\Presentation\Controller\Backoffice\PageController::create">
+    </route>
+
+    <route id="backoffice_edit_page" path="/page/edit/{pageId}" methods="GET|POST"
+           controller="WideMorph\Cms\Bundle\CmsEngineBundle\Presentation\Controller\Backoffice\PageController::edit">
+    </route>
+
+</routes>

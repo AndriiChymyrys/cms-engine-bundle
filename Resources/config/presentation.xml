@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults autowire="true" autoconfigure="true"/>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Presentation\Controller\Backoffice\PageController">
+            <tag name="controller.service_arguments"/>
+        </service>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Presentation\Controller\Front\IndexController">
+            <tag name="controller.service_arguments"/>
+        </service>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Presentation\Form\Type\PageFormType">
+            <argument type="service" key="$morphCoreInteraction"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\MorphCoreInteractionInterface"/>
+            <tag name="form.type"/>
+        </service>
+    </services>
+</container>
