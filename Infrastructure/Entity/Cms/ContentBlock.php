@@ -37,6 +37,12 @@ class ContentBlock
      */
     protected Collection $contents;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Cms\Page", inversedBy="contentBlocks")
+     * @ORM\JoinColumn(name="page_id", referencedColumnName="id")
+     */
+    protected Page|null $page = null;
+
     public function __construct()
     {
         $this->contents = new ArrayCollection();
@@ -106,6 +112,26 @@ class ContentBlock
                 $content->setContentBlock(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Page|null
+     */
+    public function getPage(): ?Page
+    {
+        return $this->page;
+    }
+
+    /**
+     * @param Page|null $page
+     *
+     * @return $this
+     */
+    public function setPage(?Page $page): self
+    {
+        $this->page = $page;
 
         return $this;
     }

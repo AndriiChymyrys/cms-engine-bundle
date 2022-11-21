@@ -5,7 +5,7 @@
         </div>
         <div class="card-body">
             <div class="card" v-for="content in contents.contents">
-                <Content :content="content" />
+                <Content :content="content" :block-title="blockTitle" />
             </div>
         </div>
     </div>
@@ -17,15 +17,16 @@ import {mapActions} from 'vuex'
 
 export default {
     name: "ContentBlock",
-    props: ['blockTitle', 'contents', 'contentTypes'],
+    props: ['blockTitle', 'contents', 'contentTypes', 'page'],
     components: {
         Content
     },
     mounted() {
         this.setContentTypes(this.contentTypes);
+        this.setPage(this.page);
     },
     methods: {
-        ...mapActions('cmsEngine', ['setContentTypes'])
+        ...mapActions('cmsEngine', ['setContentTypes', 'setPage'])
     }
 }
 </script>

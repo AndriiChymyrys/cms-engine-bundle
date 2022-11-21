@@ -13,10 +13,29 @@ class ContentController extends AbstractController
 {
     public function getAvailableByType(string $type, DomainInteractionInterface $domainInteraction): Response
     {
-        $availableTypes = $domainInteraction->getAvailableContentFactory()->getContents(ContentTypeEnum::from($type));
+        $availableTypes = $domainInteraction->getAvailableContentTypesFactory()->getTypes(ContentTypeEnum::from($type));
 
         return $this->json([
             'available' => $availableTypes,
+        ]);
+    }
+
+    public function getEditView(
+        int $pageId,
+        string $contentBlock,
+        string $content,
+        string $contentType,
+        string $contentKey,
+        DomainInteractionInterface $domainInteraction
+    ): Response {
+        $page = $domainInteraction->getPageService()->findOrThrowPageById($pageId);
+        $view = $domainInteraction->getContentViewFactory()->getContentView(
+            $page,
+            ContentTypeEnum::tryFrom($contentType)
+        );
+
+        return $this->json([
+            'view' => $view->getEditView($page, $contentBlock, $content, $contentKey),
         ]);
     }
 }

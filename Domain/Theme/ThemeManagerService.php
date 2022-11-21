@@ -6,6 +6,7 @@ namespace WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme;
 
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Exception\ThemeProviderException;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\Contract\ThemeProviderInterface;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\Contract\FieldProviderInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\Contract\LayoutProviderInterface;
 
 class ThemeManagerService implements ThemeManagerServiceInterface
@@ -65,5 +66,20 @@ class ThemeManagerService implements ThemeManagerServiceInterface
         }
 
         return $groupByTheme ? $layouts : array_merge(...array_values($layouts));
+    }
+
+    public function getThemeFieldProvider(string $themeName, string $fieldType): FieldProviderInterface
+    {
+        $theme = $this->getThemeProviderByName($themeName);
+
+        foreach ($theme->getFields() as $field) {
+            if ($field->getType() === $fieldType) {
+                return $field;
+            }
+        }
+
+        throw new ThemeProviderException(
+            sprintf('Can not find field "%s" in theme "%s"', $fieldType, $themeName)
+        );
     }
 }

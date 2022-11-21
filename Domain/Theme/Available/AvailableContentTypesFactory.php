@@ -2,19 +2,18 @@
 
 declare(strict_types=1);
 
-namespace WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme;
+namespace WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Available;
 
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Enum\ContentTypeEnum;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Exception\ThemeProviderException;
 
-class AvailableContentFactory implements AvailableContentFactoryInterface
+class AvailableContentTypesFactory implements AvailableContentTypesFactoryInterface
 {
     public function __construct(protected array $contentTypes)
     {
     }
 
-
-    public function getContents(ContentTypeEnum $contentTypeEnum): array
+    public function getTypes(ContentTypeEnum $contentTypeEnum): array
     {
         if (isset($this->contentTypes[$contentTypeEnum->value])) {
             return $this->contentTypes[$contentTypeEnum->value]->getAvailable();

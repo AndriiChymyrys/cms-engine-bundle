@@ -69,19 +69,36 @@
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Layout\TwigLayoutServiceInterface"
                  alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Layout\TwigLayoutService"/>
 
-        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\AvailableContentFactory">
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Available\AvailableContentTypesFactory">
             <argument type="collection" key="$contentTypes">
                 <argument type="service" key="field"
-                          id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Type\AvailableFieldType"/>
+                          id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Available\AvailableFieldType"/>
             </argument>
         </service>
 
-        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\AvailableContentFactoryInterface"
-                 alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\AvailableContentFactory"/>
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Available\AvailableContentTypesFactoryInterface"
+                 alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Available\AvailableContentTypesFactory"/>
 
-        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Type\AvailableFieldType">
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Available\AvailableFieldType">
             <argument key="$providerRegistry" type="service"
                       id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeProviderRegistryInterface"/>
+        </service>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ContentView\ContentViewFactory">
+            <argument type="collection" key="$views">
+                <argument type="service" key="field"
+                          id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ContentView\View\FieldContentViewPage"/>
+            </argument>
+        </service>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ContentView\ContentViewFactoryInterface"
+                 alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ContentView\ContentViewFactory"/>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ContentView\View\FieldContentViewPage">
+            <argument type="service" key="$morphCoreInteraction"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\MorphCoreInteractionInterface"/>
+            <argument type="service" key="$themeManagerService"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeManagerServiceInterface"/>
         </service>
     </services>
 </container>

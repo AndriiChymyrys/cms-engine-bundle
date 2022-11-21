@@ -12,6 +12,7 @@ use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\TimestampAbleEntit
  * Class Field
  *
  * @package WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Entity\Cms
+ * !!repositoryClass App\Repository\Cms\FieldRepository
  * !!hasLifecycleCallbacks
  */
 class Field

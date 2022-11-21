@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme;
 
 use WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\Contract\ThemeProviderInterface;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\Contract\FieldProviderInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\Contract\LayoutProviderInterface;
 
 interface ThemeManagerServiceInterface
@@ -19,4 +20,6 @@ interface ThemeManagerServiceInterface
     ): LayoutProviderInterface;
 
     public function getThemeProviderByName(string $themeName): ThemeProviderInterface;
+
+    public function getThemeFieldProvider(string $themeName, string $fieldType): FieldProviderInterface;
 }

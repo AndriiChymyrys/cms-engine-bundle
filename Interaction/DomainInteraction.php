@@ -7,7 +7,8 @@ namespace WideMorph\Cms\Bundle\CmsEngineBundle\Interaction;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\PageServiceInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Layout\TwigLayoutServiceInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeManagerServiceInterface;
-use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\AvailableContentFactoryInterface;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ContentView\ContentViewFactoryInterface;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Available\AvailableContentTypesFactoryInterface;
 
 /**
  * Class DomainInteraction
@@ -20,13 +21,15 @@ class DomainInteraction implements DomainInteractionInterface
      * @param ThemeManagerServiceInterface $themeManagerService
      * @param PageServiceInterface $pageService
      * @param TwigLayoutServiceInterface $twigLayoutService
-     * @param AvailableContentFactoryInterface $availableContentFactory
+     * @param AvailableContentTypesFactoryInterface $availableContentTypesFactory
+     * @param ContentViewFactoryInterface $contentViewFactory
      */
     public function __construct(
         protected ThemeManagerServiceInterface $themeManagerService,
         protected PageServiceInterface $pageService,
         protected TwigLayoutServiceInterface $twigLayoutService,
-        protected AvailableContentFactoryInterface $availableContentFactory,
+        protected AvailableContentTypesFactoryInterface $availableContentTypesFactory,
+        protected ContentViewFactoryInterface $contentViewFactory,
     ) {
     }
 
@@ -57,8 +60,16 @@ class DomainInteraction implements DomainInteractionInterface
     /**
      * {@inheritDoc}
      */
-    public function getAvailableContentFactory(): AvailableContentFactoryInterface
+    public function getAvailableContentTypesFactory(): AvailableContentTypesFactoryInterface
     {
-        return $this->availableContentFactory;
+        return $this->availableContentTypesFactory;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getContentViewFactory(): ContentViewFactoryInterface
+    {
+        return $this->contentViewFactory;
     }
 }

@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Entity\Cms;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Cms\ContentBlock;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Enum\PageStatusEnum;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\ThemeAwareTrait;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\TimestampAbleEntityTrait;
@@ -47,6 +50,16 @@ class Page
      * @ORM\Column(name="status", type="string", length=10)
      */
     protected string $status;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Cms\ContentBlock", mappedBy="page")
+     */
+    protected Collection $contentBlocks;
+
+    public function __construct()
+    {
+        $this->contentBlocks = new ArrayCollection();
+    }
 
     /**
      * @return int|null
@@ -134,5 +147,52 @@ class Page
         $this->status = $status->value;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, ContentBlock>
+     */
+    public function getContentBlocks(): Collection
+    {
+        return $this->contentBlocks;
+    }
+
+    /**
+     * @param ContentBlock $contentBlock
+     *
+     * @return $this
+     */
+    public function addContentBlock(ContentBlock $contentBlock): self
+    {
+        if (!$this->contentBlocks->contains($contentBlock)) {
+            $this->contentBlocks->add($contentBlock);
+            $contentBlock->setPage($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ContentBlock $contentBlock
+     *
+     * @return $this
+     */
+    public function removeContentBlock(ContentBlock $contentBlock): self
+    {
+        if ($this->contentBlocks->removeElement($contentBlock)) {
+            // set the owning side to null (unless already changed)
+            if ($contentBlock->getPage() === $this) {
+                $contentBlock->setPage(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getVueData(): array
+    {
+        return [
+            'id' => $this->getId(),
+        ];
     }
 }

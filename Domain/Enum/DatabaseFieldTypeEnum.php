@@ -28,4 +28,15 @@ enum DatabaseFieldTypeEnum: string
             self::TEXT => TextType::class,
         };
     }
+
+    public function getEntityResolverName(): string
+    {
+        return match($this) {
+            self::DATETIME => 'Cms/FieldType/DateTimeType',
+            self::INTEGER => 'Cms/FieldType/IntegerType',
+            self::JSON => 'Cms/FieldType/JsonType',
+            self::STRING => 'Cms/FieldType/StringType',
+            self::TEXT => 'Cms/FieldType/TextType',
+        };
+    }
 }

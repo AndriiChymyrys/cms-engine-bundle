@@ -10,33 +10,39 @@
                 </select>
             </div>
             <div class="col-2">
-                <select class="form-control" v-model="type" v-if="availableTypes" @change="getTypeContent">
+                <select class="form-control" v-model="contentKey" v-if="availableTypes" @change="getTypeContent">
                     <optgroup :label="key" v-for="(types, key) in availableTypes">
-                        <option v-for="type in types" :value="type">{{type}}</option>
+                        <option v-for="(type, key) in types" :value="key">{{type}}</option>
                     </optgroup>
                 </select>
             </div>
         </div>
+        <div class="row" v-html="contentView"></div>
     </div>
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 import axios from "axios";
 
 export default {
     name: "Content",
-    props: ['content'],
+    props: ['content', 'blockTitle'],
     data: function () {
         return {
             selectedType: null,
-            type: null,
+            contentKey: null,
             availableTypes: null,
+            contentView: null,
         }
+    },
+    mounted() {
+        this.addContent({blockName: this.blockTitle, contentName: this.content});
     },
     methods: {
         getAvailableTypes() {
             let url = '/cms/api/content/available-type/' + this.selectedType;
+            this.availableTypes = this.contentKey = null;
             axios.get(url)
                 .then(response => {
                     if (response.data.available) {
@@ -48,11 +54,27 @@ export default {
                 })
         },
         getTypeContent() {
+            let url = '/cms/api/content/edit-view/{pageId}/{contentBlock}/{content}/{contentType}/{contentKey}';
+            url = url.replace('{pageId}', this.getPage.id)
+            url = url.replace('{contentBlock}', this.blockTitle)
+            url = url.replace('{content}', this.content)
+            url = url.replace('{contentType}', this.selectedType)
+            url = url.replace('{contentKey}', this.contentKey)
 
-        }
+            axios.get(url)
+                .then(response => {
+                    if (response.data.view) {
+                        this.contentView = response.data.view;
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        },
+        ...mapActions('cmsEngine', ['addContent'])
     },
     computed: {
-        ...mapGetters('cmsEngine', ['getContentTypes']),
+        ...mapGetters('cmsEngine', ['getContentTypes', 'getPage']),
     }
 }
 </script>

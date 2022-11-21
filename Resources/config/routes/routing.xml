@@ -16,8 +16,12 @@
            controller="WideMorph\Cms\Bundle\CmsEngineBundle\Presentation\Controller\Backoffice\PageController::edit">
     </route>
 
-    <route id="api_backoffice_edit_page" path="/api/content/available-type/{type}" methods="GET"
+    <route id="api_backoffice_edit_page_available_content" path="/api/content/available-type/{type}" methods="GET"
            controller="WideMorph\Cms\Bundle\CmsEngineBundle\Presentation\Controller\Backoffice\Api\ContentController::getAvailableByType">
+    </route>
+
+    <route id="api_backoffice_edit_page_field_edit_view" path="/api/content/edit-view/{pageId}/{contentBlock}/{content}/{contentType}/{contentKey}" methods="GET"
+           controller="WideMorph\Cms\Bundle\CmsEngineBundle\Presentation\Controller\Backoffice\Api\ContentController::getEditView">
     </route>
 
 </routes>

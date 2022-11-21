@@ -18,5 +18,9 @@ interface FieldProviderInterface
 
     public function getType(): string;
 
+    public function getEditView(string $value): string;
+
+    public function getPageView(): string;
+
     public function getDatabaseType(): DatabaseFieldTypeEnum;
 }

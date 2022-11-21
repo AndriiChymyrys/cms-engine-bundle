@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Type;
+namespace WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Available;
 
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeProviderRegistryInterface;
 
