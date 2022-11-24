@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Routing;
 
+use App\Entity\Cms\Page;
 use Symfony\Component\Routing\Route;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\RouteCollection;
-use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Entity\Cms\Page;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Enum\RouteParameterEnum;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\MorphCoreInteractionInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\Bridge\MorphRouting\RouterProviderInterfaceBridge;
@@ -20,11 +21,11 @@ class RouteProvider implements RouterProviderInterfaceBridge
 {
     /**
      * @param string $frontController
-     * @param MorphCoreInteractionInterface $morphCoreInteraction
+     * @param EntityManagerInterface $entityManager
      */
     public function __construct(
         protected string $frontController,
-        protected MorphCoreInteractionInterface $morphCoreInteraction
+        protected EntityManagerInterface $entityManager,
     ) {
     }
 
@@ -34,7 +35,7 @@ class RouteProvider implements RouterProviderInterfaceBridge
     public function getRouteCollection(): RouteCollection
     {
         $collection = new RouteCollection();
-        $repository = $this->morphCoreInteraction->getEntityResolver()->getEntityRepository('Cms/Page');
+        $repository = $this->entityManager->getRepository(Page::class);
 
         /** @var Page $page */
         foreach ($repository->findAll() as $page) {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace WideMorph\Cms\Bundle\CmsEngineBundle\Presentation\Form\Type;
 
+use App\Entity\Cms\Page;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -70,7 +71,7 @@ class PageFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => $this->morphCoreInteraction->getEntityResolver()->getEntityName('Cms/Page'),
+            'data_class' => Page::class,
         ]);
     }
 }

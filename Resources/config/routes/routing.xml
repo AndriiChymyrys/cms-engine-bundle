@@ -24,4 +24,8 @@
            controller="WideMorph\Cms\Bundle\CmsEngineBundle\Presentation\Controller\Backoffice\Api\ContentController::getEditView">
     </route>
 
+    <route id="api_backoffice_edit_page_save_content_blocks" path="/api/content/save/{pageId}" methods="POST"
+           controller="WideMorph\Cms\Bundle\CmsEngineBundle\Presentation\Controller\Backoffice\Api\ContentController::saveContent">
+    </route>
+
 </routes>

@@ -13,11 +13,21 @@ const CmsEngine = {
                 state.contentBlocks[blockName] = {};
             }
 
-            state.contentBlocks[blockName][contentName] = {};
+            state.contentBlocks[blockName][contentName] = [];
         },
-        ADD_CONTENT_TYPE: (state, {blockName, contentName, type, data}) => {
-            state.contentBlocks[blockName][contentName][type] = data;
-        }
+        ADD_CONTENT_TYPE: (state, {blockName, contentName, data}) => {
+            if (!state.contentBlocks[blockName][contentName]) {
+                state.contentBlocks[blockName][contentName] = [];
+            }
+
+            state.contentBlocks[blockName][contentName].push(data);
+        },
+        DELETE_CONTENT_TYPE: (state, {blockName, contentName, index}) => {
+            if (state.contentBlocks[blockName][contentName]) {
+                const i = state.contentBlocks[blockName][contentName].map(item => item.index).indexOf(index);
+                state.contentBlocks[blockName][contentName].splice(i, 1);
+            }
+        },
     },
     actions: {
         setContentTypes({commit}, types) {
@@ -29,13 +39,28 @@ const CmsEngine = {
         addContent({commit}, {blockName, contentName}) {
             commit('ADD_CONTENT', {blockName, contentName});
         },
-        updateContent({commit}, {blockName, contentName, type, data}) {
+        addContentType({commit}, {blockName, contentName, type, data}) {
             commit('ADD_CONTENT_TYPE', {blockName, contentName, type, data});
-        }
+        },
+        deleteContent({commit}, {blockName, contentName, type, index}) {
+            commit('DELETE_CONTENT_TYPE', {blockName, contentName, type, index});
+        },
     },
     getters: {
+        getNextContentTypeIndex: (state) => ({blockName, contentName}) => {
+            if (!state.contentBlocks[blockName][contentName]) {
+                return 1;
+            }
+
+            let length = state.contentBlocks[blockName][contentName].length;
+
+            return ++length;
+        },
         getContentTypes(state) {
             return state.contentTypes;
+        },
+        getContentBlocks(state) {
+            return state.contentBlocks;
         },
         getPage(state) {
             return state.page;

@@ -26,7 +26,7 @@ class Content
      * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\Column(type="integer")
      */
-    protected mixed $id;
+    protected mixed $id = null;
 
     /**
      * @ORM\Column(name="name", type="string")
@@ -39,7 +39,7 @@ class Content
     protected string $type;
 
     /**
-     * @ORM\Column(name="order", type="integer")
+     * @ORM\Column(name="content_order", type="integer")
      */
     protected int $order;
 

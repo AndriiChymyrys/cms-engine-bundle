@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ContentView\View;
 
-use WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\DomainInteraction;
+use App\Entity\Cms\Field;
+use Doctrine\ORM\EntityManagerInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Entity\Cms\Page;
-use WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\MorphCoreInteractionInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeManagerServiceInterface;
 
 class FieldContentViewPage implements ContentViewTypeInterface
 {
     public function __construct(
-        protected MorphCoreInteractionInterface $morphCoreInteraction,
         protected ThemeManagerServiceInterface $themeManagerService,
+        protected EntityManagerInterface $entityManager
     ) {
     }
 
@@ -23,11 +23,7 @@ class FieldContentViewPage implements ContentViewTypeInterface
         string $content,
         string $contentKey
     ): string {
-        $fieldRepository = $this->morphCoreInteraction
-            ->getEntityResolver()
-            ->getEntityRepository('Cms/Field');
-
-        $field = $fieldRepository
+        $field = $this->entityManager->getRepository(Field::class)
             ->getFieldContentType($page->getId(), $contentBlock, $content, $page->getTheme(), $contentKey);
 
         $themeField = $this->themeManagerService->getThemeFieldProvider(
@@ -38,7 +34,7 @@ class FieldContentViewPage implements ContentViewTypeInterface
         $fieldContent = null;
 
         if ($field) {
-            $fieldContent = $fieldRepository->getFieldContent($field);
+            $fieldContent = $this->entityManager->getRepository(Field::class)->getFieldContent($field);
         }
 
         return $themeField->getEditView($fieldContent ? $fieldContent->getValue() : '');

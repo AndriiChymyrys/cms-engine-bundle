@@ -1,11 +1,11 @@
 <template>
     <div class="card card-primary">
         <div class="card-header">
-            <h3 class="card-title">{{ blockTitle }}</h3>
+            <h3 class="card-title">{{ blockName }}</h3>
         </div>
         <div class="card-body">
             <div class="card" v-for="content in contents.contents">
-                <Content :content="content" :block-title="blockTitle" />
+                <Content :content="content" :block-name="blockName" />
             </div>
         </div>
     </div>
@@ -17,7 +17,7 @@ import {mapActions} from 'vuex'
 
 export default {
     name: "ContentBlock",
-    props: ['blockTitle', 'contents', 'contentTypes', 'page'],
+    props: ['blockName', 'contents', 'contentTypes', 'page'],
     components: {
         Content
     },

@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page;
 
-use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Entity\Cms\Page;
+use App\Entity\Cms\Page;
 
 interface PageServiceInterface
 {
     public function findOrThrowPageById(int $pageId): Page;
+
+    public function saveContentBlocks(Page $page, array $blocks): void;
 }

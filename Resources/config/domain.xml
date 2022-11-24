@@ -25,14 +25,14 @@
         </service>
 
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\DataSource\SelectPageDataSource" autoconfigure="true">
-            <argument type="service" key="$morphCoreInteraction"
-                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\MorphCoreInteractionInterface"/>
+            <argument type="service" key="$entityManager"
+                      id="Doctrine\ORM\EntityManagerInterface"/>
         </service>
 
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Routing\RouteProvider" autoconfigure="true">
             <argument key="$frontController"/>
-            <argument type="service" key="$morphCoreInteraction"
-                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\MorphCoreInteractionInterface"/>
+            <argument type="service" key="$entityManager"
+                      id="Doctrine\ORM\EntityManagerInterface"/>
         </service>
 
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\DataSource\CreatePageDataSourceInterface"
@@ -49,12 +49,24 @@
                  alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\CreatePageService"/>
 
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\PageService">
-            <argument type="service" key="$morphCoreInteraction"
-                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\MorphCoreInteractionInterface"/>
+            <argument type="service" key="$saveFieldBlockType"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\BlockType\SaveFieldBlockTypeInterface"/>
+            <argument type="service" key="$entityManager"
+                      id="Doctrine\ORM\EntityManagerInterface"/>
         </service>
 
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\PageServiceInterface"
                  alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\PageService"/>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\BlockType\SaveFieldBlockType">
+            <argument type="service" key="$themeManagerService"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeManagerServiceInterface"/>
+            <argument type="service" key="$entityManager"
+                      id="Doctrine\ORM\EntityManagerInterface"/>
+        </service>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\BlockType\SaveFieldBlockTypeInterface"
+                 alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\BlockType\SaveFieldBlockType"/>
 
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\Content\ContentRender">
         </service>
@@ -95,8 +107,8 @@
                  alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ContentView\ContentViewFactory"/>
 
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ContentView\View\FieldContentViewPage">
-            <argument type="service" key="$morphCoreInteraction"
-                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\MorphCoreInteractionInterface"/>
+            <argument type="service" key="$entityManager"
+                      id="Doctrine\ORM\EntityManagerInterface"/>
             <argument type="service" key="$themeManagerService"
                       id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeManagerServiceInterface"/>
         </service>

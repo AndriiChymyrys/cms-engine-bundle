@@ -8,6 +8,7 @@ use App\Entity\Cms\Content;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\ThemeAwareTrait;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\TimestampAbleEntityTrait;
 
 /**
@@ -15,17 +16,19 @@ use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\TimestampAbleEntit
  *
  * @package WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Entity\Cms
  * !!hasLifecycleCallbacks
+ * !!repositoryClass App\Repository\Cms\ContentBlockRepository
  */
 class ContentBlock
 {
     use TimestampAbleEntityTrait;
+    use ThemeAwareTrait;
 
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\Column(type="integer")
      */
-    protected mixed $id;
+    protected mixed $id = null;
 
     /**
      * @ORM\Column(name="name", type="string")

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace WideMorph\Cms\Bundle\CmsEngineBundle\Interaction;
 
-use WideMorph\Morph\Bundle\MorphCoreBundle\Domain\Services\Entity\EntityResolverInterface;
 use WideMorph\Morph\Bundle\MorphCoreBundle\Interaction\DomainInteractionInterface;
 
 /**
@@ -18,9 +17,4 @@ interface MorphCoreInteractionInterface
      * @return DomainInteractionInterface
      */
     public function getDomainInteraction(): DomainInteractionInterface;
-
-    /**
-     * @return EntityResolverInterface
-     */
-    public function getEntityResolver(): EntityResolverInterface;
 }

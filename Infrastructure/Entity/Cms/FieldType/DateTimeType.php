@@ -15,7 +15,7 @@ class DateTimeType
      * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\Column(type="integer")
      */
-    protected mixed $id;
+    protected mixed $id = null;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Cms\Field")

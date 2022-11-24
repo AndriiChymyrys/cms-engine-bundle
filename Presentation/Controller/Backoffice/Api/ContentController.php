@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace WideMorph\Cms\Bundle\CmsEngineBundle\Presentation\Controller\Backoffice\Api;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Enum\ContentTypeEnum;
@@ -37,5 +38,15 @@ class ContentController extends AbstractController
         return $this->json([
             'view' => $view->getEditView($page, $contentBlock, $content, $contentKey),
         ]);
+    }
+
+    public function saveContent(int $pageId, DomainInteractionInterface $domainInteraction, Request $request)
+    {
+        $page = $domainInteraction->getPageService()->findOrThrowPageById($pageId);
+        $requestData = json_decode(json: $request->getContent(), associative: true, flags: JSON_THROW_ON_ERROR);
+
+        $domainInteraction->getPageService()->saveContentBlocks($page, $requestData['blocks']);
+
+        return $this->json([]);
     }
 }

@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace WideMorph\Cms\Bundle\CmsEngineBundle\Domain\DataSource;
 
-use WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\MorphCoreInteractionInterface;
+use App\Entity\Cms\Page;
+use Doctrine\ORM\EntityManagerInterface;
 use WideMorph\Morph\Bundle\MorphCoreBundle\Domain\Services\Input\InputDataCollectionInterface;
 use WideMorph\Morph\Bundle\MorphCoreBundle\Interaction\Contract\DataSource\SelectDataSourceInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\Bridge\MorphCore\SelectDataSourceDefinitionInterfaceBridge;
@@ -20,10 +21,10 @@ class SelectPageDataSource implements SelectDataSourceDefinitionInterfaceBridge
     public const PER_PAGE = 20;
 
     /**
-     * @param MorphCoreInteractionInterface $morphCoreInteraction
+     * @param EntityManagerInterface $entityManager
      */
     public function __construct(
-        protected MorphCoreInteractionInterface $morphCoreInteraction
+        protected EntityManagerInterface $entityManager,
     ) {
     }
 
@@ -32,7 +33,7 @@ class SelectPageDataSource implements SelectDataSourceDefinitionInterfaceBridge
      */
     public function getSource(): SelectDataSourceInterface
     {
-        return $this->morphCoreInteraction->getEntityResolver()->getEntityRepository('Cms/Page');
+        return $this->entityManager->getRepository(Page::class);
     }
 
     /**

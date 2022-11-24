@@ -25,7 +25,7 @@ class Field
      * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\Column(type="integer")
      */
-    protected mixed $id;
+    protected mixed $id = null;
 
     /**
      * @ORM\Column(name="type", type="string")
