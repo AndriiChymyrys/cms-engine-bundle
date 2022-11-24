@@ -4,8 +4,8 @@
             <h3 class="card-title">{{ blockName }}</h3>
         </div>
         <div class="card-body">
-            <div class="card" v-for="content in contents.contents">
-                <Content :content="content" :block-name="blockName" />
+            <div class="card" v-for="(contentData, contentName) in contents.contents">
+                <Content :content-name="contentName" :content-data="contentData" :block-name="blockName" />
             </div>
         </div>
     </div>

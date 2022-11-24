@@ -36,7 +36,7 @@ class ContentController extends AbstractController
         );
 
         return $this->json([
-            'view' => $view->getEditView($page, $contentBlock, $content, $contentKey),
+            'view' => $view->getEditView($page, $contentKey),
         ]);
     }
 
@@ -47,6 +47,11 @@ class ContentController extends AbstractController
 
         $domainInteraction->getPageService()->saveContentBlocks($page, $requestData['blocks']);
 
+        return $this->json([]);
+    }
+
+    public function deleteFieldContent(int $page, int $field, DomainInteractionInterface $domainInteraction)
+    {
         return $this->json([]);
     }
 }

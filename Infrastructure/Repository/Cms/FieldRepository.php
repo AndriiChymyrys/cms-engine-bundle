@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Repository\Cms;
 
-use DateTime;
-use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -26,31 +24,6 @@ class FieldRepository extends ServiceEntityRepository
         string $entityClass = Field::class
     ) {
         parent::__construct($registry, $entityClass);
-    }
-
-    public function getFieldContentType(int $pageId, string $contentBlock, string $content, string $theme, string $type)
-    {
-        $qb = $this->createQueryBuilder('f');
-
-        return $qb
-            ->join('f.content', 'c')
-            ->join(
-                'c.contentBlock',
-                'cb',
-                Join::WITH,
-                $qb->expr()->eq('cb.page', ':pageId')
-            )
-            ->where($qb->expr()->eq('cb.name', ':name'))
-            ->andWhere($qb->expr()->eq('c.name', ':content'))
-            ->andWhere($qb->expr()->eq('f.theme', ':theme'))
-            ->andWhere($qb->expr()->eq('f.type', ':type'))
-            ->setParameter('name', $contentBlock)
-            ->setParameter('pageId', $pageId)
-            ->setParameter('content', $content)
-            ->setParameter('type', $type)
-            ->setParameter('theme', $theme)
-            ->getQuery()
-            ->getOneOrNullResult();
     }
 
     public function getFieldContent(Field $field): mixed

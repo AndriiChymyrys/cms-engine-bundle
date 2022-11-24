@@ -8,12 +8,18 @@ const CmsEngine = {
     mutations: {
         SET_CONTENT_TYPES: (state, types) => state.contentTypes = types,
         SET_PAGE: (state, page) => state.page = page,
-        ADD_CONTENT: (state, {blockName, contentName}) => {
+        ADD_CONTENT: (state, {blockName, contentName, contentData}) => {
             if (!state.contentBlocks[blockName]) {
                 state.contentBlocks[blockName] = {};
             }
 
-            state.contentBlocks[blockName][contentName] = [];
+            if (!state.contentBlocks[blockName][contentName]) {
+                state.contentBlocks[blockName][contentName] = [];
+            }
+
+            contentData.forEach((data) => {
+                state.contentBlocks[blockName][contentName].push(data);
+            })
         },
         ADD_CONTENT_TYPE: (state, {blockName, contentName, data}) => {
             if (!state.contentBlocks[blockName][contentName]) {
@@ -24,7 +30,7 @@ const CmsEngine = {
         },
         DELETE_CONTENT_TYPE: (state, {blockName, contentName, index}) => {
             if (state.contentBlocks[blockName][contentName]) {
-                const i = state.contentBlocks[blockName][contentName].map(item => item.index).indexOf(index);
+                const i = state.contentBlocks[blockName][contentName].map(item => item.id).indexOf(index);
                 state.contentBlocks[blockName][contentName].splice(i, 1);
             }
         },
@@ -36,14 +42,14 @@ const CmsEngine = {
         setPage({commit}, page) {
             commit('SET_PAGE', page);
         },
-        addContent({commit}, {blockName, contentName}) {
-            commit('ADD_CONTENT', {blockName, contentName});
+        addContent({commit}, {blockName, contentName, contentData}) {
+            commit('ADD_CONTENT', {blockName, contentName, contentData});
         },
-        addContentType({commit}, {blockName, contentName, type, data}) {
-            commit('ADD_CONTENT_TYPE', {blockName, contentName, type, data});
+        addContentType({commit}, {blockName, contentName, data}) {
+            commit('ADD_CONTENT_TYPE', {blockName, contentName, data});
         },
-        deleteContent({commit}, {blockName, contentName, type, index}) {
-            commit('DELETE_CONTENT_TYPE', {blockName, contentName, type, index});
+        deleteContent({commit}, {blockName, contentName, index}) {
+            commit('DELETE_CONTENT_TYPE', {blockName, contentName, index});
         },
     },
     getters: {
@@ -52,9 +58,9 @@ const CmsEngine = {
                 return 1;
             }
 
-            let length = state.contentBlocks[blockName][contentName].length;
+            let max = Math.max(...state.contentBlocks[blockName][contentName].map(o => o.id))
 
-            return ++length;
+            return ++max;
         },
         getContentTypes(state) {
             return state.contentTypes;

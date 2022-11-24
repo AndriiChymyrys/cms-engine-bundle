@@ -11,4 +11,6 @@ interface PageServiceInterface
     public function findOrThrowPageById(int $pageId): Page;
 
     public function saveContentBlocks(Page $page, array $blocks): void;
+
+    public function fetchPageBlocks(Page $page, array $blocks): array;
 }

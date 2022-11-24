@@ -49,24 +49,26 @@
                  alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\CreatePageService"/>
 
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\PageService">
-            <argument type="service" key="$saveFieldBlockType"
-                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\BlockType\SaveFieldBlockTypeInterface"/>
+            <argument type="service" key="$fieldBlockType"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\BlockType\FieldBlockTypeInterface"/>
             <argument type="service" key="$entityManager"
                       id="Doctrine\ORM\EntityManagerInterface"/>
+            <argument type="service" key="$contentViewFactory"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ContentView\ContentViewFactoryInterface"/>
         </service>
 
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\PageServiceInterface"
                  alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\PageService"/>
 
-        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\BlockType\SaveFieldBlockType">
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\BlockType\FieldBlockType">
             <argument type="service" key="$themeManagerService"
                       id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeManagerServiceInterface"/>
             <argument type="service" key="$entityManager"
                       id="Doctrine\ORM\EntityManagerInterface"/>
         </service>
 
-        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\BlockType\SaveFieldBlockTypeInterface"
-                 alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\BlockType\SaveFieldBlockType"/>
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\BlockType\FieldBlockTypeInterface"
+                 alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\BlockType\FieldBlockType"/>
 
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\Content\ContentRender">
         </service>

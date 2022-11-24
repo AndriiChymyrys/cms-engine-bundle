@@ -9,13 +9,15 @@ use Doctrine\ORM\EntityManagerInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Enum\ContentTypeEnum;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Exception\PagePersistException;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Exception\PageNotFoundException;
-use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\BlockType\SaveFieldBlockTypeInterface;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\BlockType\FieldBlockTypeInterface;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ContentView\ContentViewFactoryInterface;
 
 class PageService implements PageServiceInterface
 {
     public function __construct(
         protected EntityManagerInterface $entityManager,
-        protected SaveFieldBlockTypeInterface $saveFieldBlockType,
+        protected FieldBlockTypeInterface $fieldBlockType,
+        protected ContentViewFactoryInterface $contentViewFactory,
     ) {
     }
 
@@ -50,6 +52,44 @@ class PageService implements PageServiceInterface
 
             $this->entityManager->flush();
         }
+    }
+
+    public function fetchPageBlocks(Page $page, array $blocks): array
+    {
+        foreach ($blocks as $blockName => &$blockContent) {
+            $contentBlock = $this
+                ->entityManager
+                ->getRepository(ContentBlock::class)
+                ->getPageBlockByName($page, $blockName);
+
+            foreach ($blockContent['contents'] as $contentName => &$value) {
+                /** @var Content $content */
+                foreach ($contentBlock->getContents() as $content) {
+                    if ($content->getName() === $contentName) {
+                        foreach ($content->getFields() as $field) {
+                            $fieldContent = $this->fieldBlockType->getFieldContent($field);
+                            $editView = $this
+                                ->contentViewFactory
+                                ->getContentView($page, ContentTypeEnum::FIELD)
+                                ->getEditView($page, $field->getType(), true);
+
+                            $value[] = [
+                                'id' => $field->getId(),
+                                'contentType' => ContentTypeEnum::FIELD->value,
+                                'contentKey' => $field->getType(),
+                                'editView' => $editView->getEditView($fieldContent ? $fieldContent->getValue() : null),
+                            ];
+                        }
+
+//                        foreach ($content->getWidgets() as $widget) {
+//
+//                        }
+                    }
+                }
+            }
+        }
+
+        return $blocks;
     }
 
     protected function getContentBlock(Page $page, string $blockName): ContentBlock
@@ -109,7 +149,7 @@ class PageService implements PageServiceInterface
         string $contentKey
     ): Field|Widget {
         if ($contentTypeEnum->name === ContentTypeEnum::FIELD->name) {
-            return $this->saveFieldBlockType->getField($content, $page, $contentKey);
+            return $this->fieldBlockType->getField($content, $page, $contentKey);
         } elseif ($contentTypeEnum->name === ContentTypeEnum::WIDGET->name) {
         }
 
@@ -119,7 +159,7 @@ class PageService implements PageServiceInterface
     protected function updateContentValue(Field|Widget $value, array $contentData): void
     {
         if ($value instanceof Field) {
-            $this->saveFieldBlockType->saveField($value, $contentData);
+            $this->fieldBlockType->saveField($value, $contentData);
         } elseif ($value instanceof Widget) {
         } else {
             throw new PagePersistException(

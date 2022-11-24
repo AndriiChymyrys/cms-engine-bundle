@@ -9,11 +9,11 @@ use App\Entity\Cms\Field;
 use App\Entity\Cms\Content;
 
 /**
- * Class SaveFieldBlockTypeInterface
+ * Class FieldBlockTypeInterface
  *
  * @package WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\BlockType
  */
-interface SaveFieldBlockTypeInterface
+interface FieldBlockTypeInterface
 {
     /**
      * @param Content $content
@@ -31,4 +31,11 @@ interface SaveFieldBlockTypeInterface
      * @return void
      */
     public function saveField(Field $field, array $contentData): void;
+
+    /**
+     * @param Field $field
+     *
+     * @return mixed
+     */
+    public function getFieldContent(Field $field): mixed;
 }

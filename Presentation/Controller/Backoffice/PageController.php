@@ -58,6 +58,7 @@ class PageController extends AbstractController
         $page = $domainInteraction->getPageService()->findOrThrowPageById($pageId);
         $themeProvider = $domainInteraction->getThemeManagerService()->getThemeProviderByName($page->getTheme());
         $contentBlocks = $domainInteraction->getTwigLayoutService()->getContentBlocks($page);
+        $contentBlocks = $domainInteraction->getPageService()->fetchPageBlocks($page, $contentBlocks);
         $contentTypes = ContentTypeEnum::cases();
 
         return $this->render(

@@ -11,11 +11,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeManagerServiceInterface;
 
 /**
- * Class SaveFieldBlockType
+ * Class FieldBlockType
  *
  * @package WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\BlockType
  */
-class SaveFieldBlockType implements SaveFieldBlockTypeInterface
+class FieldBlockType implements FieldBlockTypeInterface
 {
     /**
      * @param ThemeManagerServiceInterface $themeManagerService
@@ -78,5 +78,16 @@ class SaveFieldBlockType implements SaveFieldBlockTypeInterface
             ->entityManager
             ->getRepository(Field::class)
             ->updateFieldContent($field, $contentData['value']);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getFieldContent(Field $field): mixed
+    {
+        return $this
+            ->entityManager
+            ->getRepository(Field::class)
+            ->getFieldContent($field);
     }
 }
