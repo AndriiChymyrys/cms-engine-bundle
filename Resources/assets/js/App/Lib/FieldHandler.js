@@ -3,7 +3,6 @@ export default {
         handlers: {}
     },
     addSaveHandler: function (fieldType, callback) {
-        console.log('add handler')
         if (!this.save.handlers[fieldType]) {
             this.save.handlers[fieldType] = [];
         }

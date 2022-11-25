@@ -4,20 +4,17 @@
     </div>
     <div class="card-body">
         <component
-            :is="type.component"
-            v-for="type in contentTypes"
-            :key="type.component"
+            :is="'contentType'"
+            v-for="data in getContents({blockName: blockName, contentName: contentName})"
+            :key="'contentType'"
             :block-name="blockName"
             :content-name="contentName"
-            :content-index="type.contentIndex"
-            :content-data="type.data"
-            :saved="type.saved"
-            :content-html-id="generateContentId()"
-            @content-type-deleted="deleteType"
+            :content-data="data"
+            :content-id="data.id"
         />
         <div class="row">
             <div class="col-md-12">
-                <button type="button" class="btn btn-success" @click="addType">Add</button>
+                <button type="button" class="btn btn-success" @click="addFreshContentType">Add</button>
             </div>
         </div>
     </div>
@@ -33,58 +30,37 @@ export default {
     components: {
         ContentType,
     },
-    data: function () {
-        return {
-            contentTypes: [],
-        }
-    },
     mounted() {
         this.addContent({
             blockName: this.blockName,
             contentName: this.contentName,
-            contentData: this.contentData
+            contentData: this.contentData,
+            init: true,
         });
-
-        this.contentData.forEach((data) => {
-            // Add saved content types
-            this.contentTypes.push({
-                component: 'contentType',
-                contentIndex: data.id,
-                saved: true,
-                data: {
-                    selectedType: data.contentType,
-                    contentKey: data.contentKey,
-                    editView: data.editView,
-                },
-            });
-        })
     },
     methods: {
         generateContentId() {
-            let templateRow = '{type}_{key}_{unique}';
-            templateRow = templateRow.replace('{type}', this.blockName);
-            templateRow = templateRow.replace('{key}', this.contentName);
-            templateRow = templateRow.replace('{unique}', Math.random().toString(36).substr(2, 5));
-
-            return templateRow;
+            return '{type}_{key}_{unique}'
+                .replace('{type}', this.blockName)
+                .replace('{key}', this.contentName)
+                .replace('{unique}', Math.random().toString(36).substr(2, 5));
         },
-        addType() {
-            this.contentTypes.push({
-                component: 'contentType',
-                contentIndex: this.getNextContentTypeIndex({blockName: this.blockName, contentName: this.contentName}),
-                savedId: null,
-                saved: false,
-                data: {},
+        addFreshContentType() {
+            this.addContent({
+                blockName: this.blockName,
+                contentName: this.contentName,
+                contentData: {
+                    contentHtmlId: this.generateContentId(),
+                    id: this.getNextContentTypeIndex({blockName: this.blockName, contentName: this.contentName}),
+                    saved: false,
+                },
+                init: false,
             });
-        },
-        deleteType(index) {
-            const i = this.contentTypes.map(item => item.contentIndex).indexOf(index);
-            this.contentTypes.splice(i, 1);
         },
         ...mapActions('cmsEngine', ['addContent'])
     },
     computed: {
-        ...mapGetters('cmsEngine', ['getNextContentTypeIndex']),
+        ...mapGetters('cmsEngine', ['getNextContentTypeIndex', 'getContents']),
     }
 }
 </script>

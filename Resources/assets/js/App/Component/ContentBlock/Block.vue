@@ -54,10 +54,15 @@ export default {
                     for (let i = 0; i < this.getContentBlocks()[blockName][contentName].length; i++) {
                         let contentType = this.getContentBlocks()[blockName][contentName][i];
 
-                        if (contentType.selectedType === 'field') {
+                        if (contentType.contentType === 'field') {
                             contentType.value = window.WMCMSLib.FieldHandler.executeSaveHandler(
                                 contentType.contentKey, document.getElementById(contentType.contentHtmlId)
                             )
+                        }
+
+                        if (contentType.saved) {
+                            // Delete editView of field before send to server back, we do not need it
+                            contentType.editView = '';
                         }
 
                         submitBlocks[blockName][contentName].push(contentType);

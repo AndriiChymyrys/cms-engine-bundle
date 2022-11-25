@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div class="col-md-12">
-            <div class="row" v-if="!saved">
+            <div class="row" v-if="!contentData.saved">
                 <div class="col-md-2 mb-4">
                     <select class="form-control" v-model="selectedType" @change="getAvailableTypes">
                         <option v-for="content in getContentTypes" :value="content">{{ content }}</option>
@@ -20,7 +20,7 @@
                     </button>
                 </div>
             </div>
-            <div class="row" v-if="saved">
+            <div class="row" v-if="contentData.saved">
                 <div class="col-md-2 mb-4">
                     {{ selectedType }}
                 </div>
@@ -33,7 +33,7 @@
                     </button>
                 </div>
             </div>
-            <div class="row" v-html="contentView" :id="contentHtmlId"></div>
+            <div class="row" v-html="contentView" :id="this.contentData.contentHtmlId"></div>
         </div>
     </div>
 </template>
@@ -44,15 +44,15 @@ import axios from "axios";
 
 export default {
     name: "ContentType",
-    props: ['blockName', 'contentName', 'contentIndex', 'saved', 'contentData', 'contentHtmlId'],
+    props: ['blockName', 'contentName', 'contentIndex', 'contentData', 'contentId'],
     data: function () {
         return {
-            selectedType: this.saved ? this.contentData.selectedType : null,
-            contentKey: this.saved ? this.contentData.contentKey : null,
+            selectedType: this.contentData.saved ? this.contentData.contentType : null,
+            contentKey: this.contentData.saved ? this.contentData.contentKey : null,
             availableTypes: null,
-            contentView: this.saved ? this.contentData.editView : null,
+            contentView: this.contentData.saved ? this.contentData.editView : null,
             action: {
-                canDelete: this.saved,
+                canDelete: this.contentData.saved,
             }
         }
     },
@@ -71,12 +71,12 @@ export default {
                 })
         },
         getTypeContent() {
-            let url = '/cms/api/content/edit-view/{pageId}/{contentBlock}/{content}/{contentType}/{contentKey}';
-            url = url.replace('{pageId}', this.getPage.id)
-            url = url.replace('{contentBlock}', this.blockName)
-            url = url.replace('{content}', this.contentName)
-            url = url.replace('{contentType}', this.selectedType)
-            url = url.replace('{contentKey}', this.contentKey)
+            let url = '/cms/api/content/edit-view/{pageId}/{contentBlock}/{content}/{contentType}/{contentKey}'
+                .replace('{pageId}', this.getPage.id)
+                .replace('{contentBlock}', this.blockName)
+                .replace('{content}', this.contentName)
+                .replace('{contentType}', this.selectedType)
+                .replace('{contentKey}', this.contentKey)
 
             axios.get(url)
                 .then(response => {
@@ -84,12 +84,11 @@ export default {
                         this.contentView = response.data.view;
                         this.action.canDelete = true;
 
-                        this.addContentType({
+                        this.updateContentTypeById({
                             blockName: this.blockName,
                             contentName: this.contentName,
+                            id: this.contentId,
                             data: {
-                                contentHtmlId: this.contentHtmlId,
-                                id: this.contentIndex,
                                 contentType: this.selectedType,
                                 contentKey: this.contentKey,
                             },
@@ -104,12 +103,10 @@ export default {
             this.deleteContent({
                 blockName: this.blockName,
                 contentName: this.contentName,
-                id: this.contentIndex,
+                id: this.contentId,
             });
-
-            this.$emit('contentTypeDeleted', this.contentIndex);
         },
-        ...mapActions('cmsEngine', ['addContentType', 'deleteContent'])
+        ...mapActions('cmsEngine', ['updateContentTypeById', 'deleteContent'])
     },
     computed: {
         ...mapGetters('cmsEngine', ['getContentTypes', 'getPage']),
