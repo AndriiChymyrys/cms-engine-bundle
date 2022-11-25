@@ -73,6 +73,12 @@
                  alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\BlockType\FieldBlockType"/>
 
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\Content\ContentRender">
+            <argument type="service" key="$entityManager"
+                      id="Doctrine\ORM\EntityManagerInterface"/>
+            <argument type="service" key="$contentViewFactory"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ContentView\ContentViewFactoryInterface"/>
+            <argument type="service" key="$eventDispatcher"
+                      id="Symfony\Component\EventDispatcher\EventDispatcherInterface"/>
         </service>
 
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\Content\ContentRenderInterface"

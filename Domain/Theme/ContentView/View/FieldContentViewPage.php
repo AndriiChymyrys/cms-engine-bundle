@@ -27,8 +27,13 @@ class FieldContentViewPage implements ContentViewTypeInterface
         return $asProvider === false ? $themeField->getEditView(null) : $themeField;
     }
 
-    public function getPageView(): string
+    public function getPageView(Page $page, string $contentKey, bool $asProvider = false): FieldProviderInterface|string
     {
-        return '';
+        $themeField = $this->themeManagerService->getThemeFieldProvider(
+            $page->getTheme(),
+            $contentKey
+        );
+
+        return $asProvider === false ? $themeField->getPageView(null) : $themeField;
     }
 }

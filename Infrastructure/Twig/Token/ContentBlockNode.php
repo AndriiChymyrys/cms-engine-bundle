@@ -19,14 +19,14 @@ class ContentBlockNode extends Node
         $compiler->raw(PHP_EOL)
             ->write(sprintf('$%s = function () use ($context) {', $this->getAttribute('name')))
             ->raw(PHP_EOL)
-            ->write(sprintf('$blockName = "%s";', $this->getAttribute('name')))
+            ->indent()->write(sprintf('$blockName = "%s";', $this->getAttribute('name')))
             ->raw(PHP_EOL)
             ->write('$contentRender = $this->env->getGlobals()["content_render"];')
             ->raw(PHP_EOL)
             ->write('$pageRender = $context["render"];');
 
         // compile from ContentNode
-        $compiler->indent()->subcompile($this->getNode('block'))->outdent();
+        $compiler->subcompile($this->getNode('block'))->outdent();
 
         $compiler->write('};');
         $compiler->write(sprintf('$%s();', $this->getAttribute('name')));

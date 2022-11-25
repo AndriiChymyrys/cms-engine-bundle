@@ -6,15 +6,10 @@ namespace WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Event;
 
 use Symfony\Contracts\EventDispatcher\Event;
 
-/**
- * Class BeforeFieldSaveContentEvent
- *
- * @package WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Event
- */
-class BeforeFieldSaveContentEvent extends Event
+class BeforeContentRenderEvent extends Event
 {
     /** @var string */
-    public const NAME = 'cms.field.before_save';
+    public const NAME = 'cms.content';
 
     /**
      * @param mixed $value

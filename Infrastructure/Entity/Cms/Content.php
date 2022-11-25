@@ -16,6 +16,7 @@ use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\TimestampAbleEntit
  *
  * @package WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Entity\Cms
  * !!hasLifecycleCallbacks
+ * !!repositoryClass App\Repository\Cms\ContentRepository
  */
 class Content
 {

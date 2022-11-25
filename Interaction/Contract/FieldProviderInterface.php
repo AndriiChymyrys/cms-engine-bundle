@@ -20,7 +20,7 @@ interface FieldProviderInterface
 
     public function getEditView(mixed $value): string;
 
-    public function getPageView(): string;
+    public function getPageView(mixed $value): string;
 
     public function getDatabaseType(): DatabaseFieldTypeEnum;
 }

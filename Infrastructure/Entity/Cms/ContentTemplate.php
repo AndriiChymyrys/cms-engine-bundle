@@ -11,18 +11,18 @@ use Doctrine\Common\Collections\ArrayCollection;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\TimestampAbleEntityTrait;
 
 /**
- * Class ContentType
+ * Class ContentTemplate
  *
  * @package WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Entity\Cms
  * !!hasLifecycleCallbacks
  */
-class ContentType
+class ContentTemplate
 {
     use TimestampAbleEntityTrait;
 
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     protected mixed $id = null;
@@ -137,7 +137,7 @@ class ContentType
     {
         if (!$this->fields->contains($field)) {
             $this->fields->add($field);
-            $field->setContentType($this);
+            $field->setContentTemplate($this);
         }
 
         return $this;
@@ -152,8 +152,8 @@ class ContentType
     {
         if ($this->fields->removeElement($field)) {
             // set the owning side to null (unless already changed)
-            if ($field->getContentType() === $this) {
-                $field->setContentType(null);
+            if ($field->getContentTemplate() === $this) {
+                $field->setContentTemplate(null);
             }
         }
 

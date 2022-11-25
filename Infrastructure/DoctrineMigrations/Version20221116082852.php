@@ -22,7 +22,7 @@ final class Version20221116082852 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SEQUENCE cms_content_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE cms_content_block_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE SEQUENCE cms_content_type_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
+        $this->addSql('CREATE SEQUENCE cms_content_template_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE cms_field_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE cms_field_date_time_type_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE cms_field_integer_type_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
@@ -35,10 +35,10 @@ final class Version20221116082852 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_A0293FB8BB5A68E3 ON cms_content (content_block_id)');
         $this->addSql('CREATE TABLE cms_content_block (id INT DEFAULT nextval(\'cms_content_block_id_seq\'), page_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, theme VARCHAR(255) NOT NULL, layout VARCHAR(255) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_D8897825C4663E4 ON cms_content_block (page_id)');
-        $this->addSql('CREATE TABLE cms_content_type (id INT DEFAULT nextval(\'cms_content_type_id_seq\'), name VARCHAR(255) NOT NULL, type VARCHAR(255) NOT NULL, config JSONB DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE TABLE cms_field (id INT DEFAULT nextval(\'cms_field_id_seq\'), content_id INT DEFAULT NULL, content_type_id INT DEFAULT NULL, type VARCHAR(255) NOT NULL, db_type VARCHAR(255) NOT NULL, config JSONB DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, theme VARCHAR(255) NOT NULL, layout VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE cms_content_template (id INT DEFAULT nextval(\'cms_content_template_id_seq\'), name VARCHAR(255) NOT NULL, type VARCHAR(255) NOT NULL, config JSONB DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE cms_field (id INT DEFAULT nextval(\'cms_field_id_seq\'), content_id INT DEFAULT NULL, content_template_id INT DEFAULT NULL, type VARCHAR(255) NOT NULL, db_type VARCHAR(255) NOT NULL, config JSONB DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, theme VARCHAR(255) NOT NULL, layout VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_7586DE7484A0A3ED ON cms_field (content_id)');
-        $this->addSql('CREATE INDEX IDX_7586DE741A445520 ON cms_field (content_type_id)');
+        $this->addSql('CREATE INDEX IDX_7586DE741A445520 ON cms_field (content_template_id)');
         $this->addSql('CREATE TABLE cms_field_date_time_type (id INT DEFAULT nextval(\'cms_field_date_time_type_id_seq\'), field_id INT DEFAULT NULL, value TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_9DC9F221443707B0 ON cms_field_date_time_type (field_id)');
         $this->addSql('CREATE TABLE cms_field_integer_type (id INT DEFAULT nextval(\'cms_field_integer_type_id_seq\'), field_id INT DEFAULT NULL, value INT NOT NULL, PRIMARY KEY(id))');
@@ -55,7 +55,7 @@ final class Version20221116082852 extends AbstractMigration
         $this->addSql('ALTER TABLE cms_content_block ADD CONSTRAINT FK_D8897825C4663E4 FOREIGN KEY (page_id) REFERENCES cms_page (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE cms_content ADD CONSTRAINT FK_A0293FB8BB5A68E3 FOREIGN KEY (content_block_id) REFERENCES cms_content_block (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE cms_field ADD CONSTRAINT FK_7586DE7484A0A3ED FOREIGN KEY (content_id) REFERENCES cms_content (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE cms_field ADD CONSTRAINT FK_7586DE741A445520 FOREIGN KEY (content_type_id) REFERENCES cms_content_type (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE cms_field ADD CONSTRAINT FK_7586DE741A445520 FOREIGN KEY (content_template_id) REFERENCES cms_content_template (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE cms_field_date_time_type ADD CONSTRAINT FK_9DC9F221443707B0 FOREIGN KEY (field_id) REFERENCES cms_field (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE cms_field_integer_type ADD CONSTRAINT FK_6DE6598D443707B0 FOREIGN KEY (field_id) REFERENCES cms_field (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE cms_field_json_type ADD CONSTRAINT FK_10BD666B443707B0 FOREIGN KEY (field_id) REFERENCES cms_field (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
@@ -69,7 +69,7 @@ final class Version20221116082852 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('DROP SEQUENCE cms_content_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE cms_content_block_id_seq CASCADE');
-        $this->addSql('DROP SEQUENCE cms_content_type_id_seq CASCADE');
+        $this->addSql('DROP SEQUENCE cms_content_template_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE cms_field_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE cms_field_date_time_type_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE cms_field_integer_type_id_seq CASCADE');
@@ -90,7 +90,7 @@ final class Version20221116082852 extends AbstractMigration
         $this->addSql('ALTER TABLE cms_content_block DROP CONSTRAINT FK_D8897825C4663E4');
         $this->addSql('DROP TABLE cms_content');
         $this->addSql('DROP TABLE cms_content_block');
-        $this->addSql('DROP TABLE cms_content_type');
+        $this->addSql('DROP TABLE cms_content_template');
         $this->addSql('DROP TABLE cms_field');
         $this->addSql('DROP TABLE cms_field_date_time_type');
         $this->addSql('DROP TABLE cms_field_integer_type');

@@ -15,5 +15,5 @@ interface ContentViewTypeInterface
         bool $asProvider = false
     ): FieldProviderInterface|string;
 
-    public function getPageView(): string;
+    public function getPageView(Page $page, string $contentKey, bool $asProvider = false): FieldProviderInterface|string;
 }

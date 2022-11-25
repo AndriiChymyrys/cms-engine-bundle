@@ -49,10 +49,10 @@ class Field
     protected Content|null $content;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Cms\ContentType", inversedBy="fields")
-     * @ORM\JoinColumn(name="content_type_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Cms\ContentTemplate", inversedBy="fields")
+     * @ORM\JoinColumn(name="content_template_id", referencedColumnName="id")
      */
-    protected ContentType|null $contentType;
+    protected ContentTemplate|null $contentTemplate;
 
     /**
      * @return int|null
@@ -83,21 +83,21 @@ class Field
     }
 
     /**
-     * @return ContentType|null
+     * @return ContentTemplate|null
      */
-    public function getContentType(): ?ContentType
+    public function getContentTemplate(): ?ContentTemplate
     {
-        return $this->contentType;
+        return $this->contentTemplate;
     }
 
     /**
-     * @param ContentType|null $contentType
+     * @param ContentTemplate|null $contentTemplate
      *
      * @return $this
      */
-    public function setContentType(?ContentType $contentType): self
+    public function setContentTemplate(?ContentTemplate $contentTemplate): self
     {
-        $this->contentType = $contentType;
+        $this->contentTemplate = $contentTemplate;
 
         return $this;
     }

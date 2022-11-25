@@ -23,18 +23,22 @@ class ContentNode extends Node
 
         $compiler->raw(PHP_EOL)
             ->write(
-                sprintf('if ($contentRender->hasContent($blockName, "%s", $pageRender)) {', $this->getAttribute('name'))
+                sprintf('$content = $contentRender->getContent($blockName, "%s", $pageRender);', $this->getAttribute('name'))
             )
             ->write(PHP_EOL)
-            ->write(
-                sprintf('echo $contentRender->getContent($blockName, "%s", $pageRender);', $this->getAttribute('name'))
-            )
+            ->write('if ($content) {')
             ->write(PHP_EOL)
-            ->write('} else {')
+            ->indent()->write('foreach ($contentRender->renderTypes($content, $pageRender) as $content) {')
             ->write(PHP_EOL)
-            ->subcompile($this->getNode('defaultContent'))
+            ->indent()->write('echo $content;')
             ->write(PHP_EOL)
-            ->write('}')
+            ->outdent()->write('}')
+            ->write(PHP_EOL)
+            ->outdent()->write('} else {')
+            ->write(PHP_EOL)
+            ->indent()->subcompile($this->getNode('defaultContent'))
+            ->write(PHP_EOL)
+            ->outdent()->write('}')
             ->write(PHP_EOL);
     }
 }

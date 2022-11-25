@@ -9,18 +9,15 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Entity\Cms\Field;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Enum\DatabaseFieldTypeEnum;
-use WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\MorphCoreInteractionInterface;
 
 class FieldRepository extends ServiceEntityRepository
 {
     /**
      * @param ManagerRegistry $registry
-     * @param MorphCoreInteractionInterface $morphCoreInteraction
      * @param string $entityClass
      */
     public function __construct(
         ManagerRegistry $registry,
-        protected MorphCoreInteractionInterface $morphCoreInteraction,
         string $entityClass = Field::class
     ) {
         parent::__construct($registry, $entityClass);
