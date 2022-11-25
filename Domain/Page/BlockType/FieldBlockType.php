@@ -8,6 +8,7 @@ use App\Entity\Cms\Page;
 use App\Entity\Cms\Field;
 use App\Entity\Cms\Content;
 use Doctrine\ORM\EntityManagerInterface;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Dto\ContentTypeDto;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeManagerServiceInterface;
 
 /**
@@ -30,18 +31,12 @@ class FieldBlockType implements FieldBlockTypeInterface
     /**
      * {@inheritDoc}
      */
-    public function getField(Content $content, Page $page, string $contentKey): Field
+    public function getField(Content $content, Page $page, ContentTypeDto $contentData): Field
     {
         $entityField = null;
 
-        foreach ($content->getFields() as $field) {
-            if (
-                $field->getType() === $contentKey &&
-                $field->getTheme() === $page->getTheme() &&
-                $field->getLayout() === $page->getLayout()
-            ) {
-                $entityField = $field;
-            }
+        if ($contentData->saved) {
+            $entityField = $this->entityManager->getRepository(Field::class)->find($contentData->id);
         }
 
         if (!$entityField) {
@@ -50,12 +45,12 @@ class FieldBlockType implements FieldBlockTypeInterface
                 ->themeManagerService
                 ->getThemeFieldProvider(
                     $page->getTheme(),
-                    $contentKey
+                    $contentData->contentKey
                 )
                 ->getDatabaseType()->value;
 
             $entityField
-                ->setType($contentKey)
+                ->setType($contentData->contentKey)
                 ->setLayout($page->getLayout())
                 ->setTheme($page->getTheme())
                 ->setContent($content)
@@ -72,12 +67,12 @@ class FieldBlockType implements FieldBlockTypeInterface
     /**
      * {@inheritDoc}
      */
-    public function saveField(Field $field, array $contentData): void
+    public function saveField(Field $field, ContentTypeDto $contentData): void
     {
         $this
             ->entityManager
             ->getRepository(Field::class)
-            ->updateFieldContent($field, $contentData['value']);
+            ->updateFieldContent($field, $contentData->value);
     }
 
     /**

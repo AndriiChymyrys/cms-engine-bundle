@@ -6,6 +6,7 @@ namespace WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page;
 
 use App\Entity\{Cms\Page, Cms\Field, Cms\Widget, Cms\Content, Cms\ContentBlock};
 use Doctrine\ORM\EntityManagerInterface;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Dto\ContentTypeDto;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Enum\ContentTypeEnum;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Exception\PagePersistException;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Exception\PageNotFoundException;
@@ -38,15 +39,16 @@ class PageService implements PageServiceInterface
             $entityContentBlock = $this->getContentBlock($page, $blockName);
             foreach ($blockContent as $contentName => $contentData) {
                 foreach ($contentData as $content) {
-                    $type = ContentTypeEnum::from($content['selectedType']);
+                    $contentDto = new ContentTypeDto($content);
+                    $type = ContentTypeEnum::from($contentDto->contentType);
                     $entityContent = $this->getContent($entityContentBlock, $type, $contentName);
                     $entityContentValue = $this->getContentValue(
                         $entityContent,
                         $type,
                         $page,
-                        $content['contentKey']
+                        $contentDto
                     );
-                    $this->updateContentValue($entityContentValue, $content);
+                    $this->updateContentValue($entityContentValue, $contentDto);
                 }
             }
 
@@ -146,17 +148,17 @@ class PageService implements PageServiceInterface
         Content $content,
         ContentTypeEnum $contentTypeEnum,
         Page $page,
-        string $contentKey
+        ContentTypeDto $contentData
     ): Field|Widget {
         if ($contentTypeEnum->name === ContentTypeEnum::FIELD->name) {
-            return $this->fieldBlockType->getField($content, $page, $contentKey);
+            return $this->fieldBlockType->getField($content, $page, $contentData);
         } elseif ($contentTypeEnum->name === ContentTypeEnum::WIDGET->name) {
         }
 
         throw new PagePersistException(sprintf('Can not find content for type "%s"', $contentTypeEnum->name));
     }
 
-    protected function updateContentValue(Field|Widget $value, array $contentData): void
+    protected function updateContentValue(Field|Widget $value, ContentTypeDto $contentData): void
     {
         if ($value instanceof Field) {
             $this->fieldBlockType->saveField($value, $contentData);
