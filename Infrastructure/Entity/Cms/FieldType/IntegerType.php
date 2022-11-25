@@ -64,13 +64,13 @@ class IntegerType
     }
 
     /**
-     * @param int $value
+     * @param string $value
      *
      * @return $this
      */
-    public function setValue(int $value): self
+    public function setValue(string $value): self
     {
-        $this->value = $value;
+        $this->value = (int)$value;
 
         return $this;
     }

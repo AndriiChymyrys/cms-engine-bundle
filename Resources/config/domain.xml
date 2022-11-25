@@ -65,6 +65,8 @@
                       id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeManagerServiceInterface"/>
             <argument type="service" key="$entityManager"
                       id="Doctrine\ORM\EntityManagerInterface"/>
+            <argument type="service" key="$eventDispatcher"
+                      id="Symfony\Component\EventDispatcher\EventDispatcherInterface"/>
         </service>
 
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\BlockType\FieldBlockTypeInterface"

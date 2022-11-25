@@ -8,7 +8,9 @@ use App\Entity\Cms\Page;
 use App\Entity\Cms\Field;
 use App\Entity\Cms\Content;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Dto\ContentTypeDto;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Event\BeforeFieldSaveContentEvent;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeManagerServiceInterface;
 
 /**
@@ -21,10 +23,12 @@ class FieldBlockType implements FieldBlockTypeInterface
     /**
      * @param ThemeManagerServiceInterface $themeManagerService
      * @param EntityManagerInterface $entityManager
+     * @param EventDispatcherInterface $eventDispatcher
      */
     public function __construct(
         protected ThemeManagerServiceInterface $themeManagerService,
         protected EntityManagerInterface $entityManager,
+        protected EventDispatcherInterface $eventDispatcher,
     ) {
     }
 
@@ -69,10 +73,12 @@ class FieldBlockType implements FieldBlockTypeInterface
      */
     public function saveField(Field $field, ContentTypeDto $contentData): void
     {
+        $event = $this->fireBeforeSaveEvent($field, $contentData->value);
+
         $this
             ->entityManager
             ->getRepository(Field::class)
-            ->updateFieldContent($field, $contentData->value);
+            ->updateFieldContent($field, $event->getValue());
     }
 
     /**
@@ -84,5 +90,26 @@ class FieldBlockType implements FieldBlockTypeInterface
             ->entityManager
             ->getRepository(Field::class)
             ->getFieldContent($field);
+    }
+
+    /**
+     * @param Field $field
+     * @param mixed $value
+     *
+     * @return BeforeFieldSaveContentEvent
+     */
+    protected function fireBeforeSaveEvent(Field $field, mixed $value): BeforeFieldSaveContentEvent
+    {
+        $eventName = sprintf(
+            '%s.%s.%s',
+            BeforeFieldSaveContentEvent::NAME,
+            $field->getTheme(),
+            $field->getType()
+        );
+        $event = new BeforeFieldSaveContentEvent($value);
+
+        $this->eventDispatcher->dispatch($event, $eventName);
+
+        return $event;
     }
 }

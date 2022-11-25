@@ -39,7 +39,7 @@ export default {
 
             if (blocks) {
                 const url = '/cms/api/content/save/{pageId}'.replace('{pageId}', this.page.id);
-                axios.post(url, {blocks: blocks});
+                axios.post(url, {blocks: blocks}).then(response => window.location.reload())
             }
         },
         prepareBlocks() {
