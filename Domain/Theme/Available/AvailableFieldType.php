@@ -8,10 +8,16 @@ use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeProviderRegistryInter
 
 class AvailableFieldType implements AvailableTypeInterface
 {
+    /**
+     * @param ThemeProviderRegistryInterface $providerRegistry
+     */
     public function __construct(protected ThemeProviderRegistryInterface $providerRegistry)
     {
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getAvailable(): array
     {
         $availableFields = [];

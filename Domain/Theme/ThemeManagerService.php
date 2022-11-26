@@ -8,14 +8,21 @@ use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Exception\ThemeProviderException
 use WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\Contract\ThemeProviderInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\Contract\FieldProviderInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\Contract\LayoutProviderInterface;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\Contract\WidgetProviderInterface;
 
 class ThemeManagerService implements ThemeManagerServiceInterface
 {
+    /**
+     * @param ThemeProviderRegistryInterface $providerRegistry
+     */
     public function __construct(
         protected ThemeProviderRegistryInterface $providerRegistry
     ) {
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getThemeProviderByLayout(string $layoutName): ThemeProviderInterface
     {
         foreach ($this->providerRegistry->all() as $themeProvider) {
@@ -31,11 +38,17 @@ class ThemeManagerService implements ThemeManagerServiceInterface
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getThemeProviderByName(string $themeName): ThemeProviderInterface
     {
         return $this->providerRegistry->get($themeName);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getThemeLayoutProvider(
         ThemeProviderInterface $themeProvider,
         string $layoutName
@@ -51,6 +64,9 @@ class ThemeManagerService implements ThemeManagerServiceInterface
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getAllLayouts(bool $groupByTheme = true): array
     {
         $layouts = [];
@@ -68,6 +84,9 @@ class ThemeManagerService implements ThemeManagerServiceInterface
         return $groupByTheme ? $layouts : array_merge(...array_values($layouts));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getThemeFieldProvider(string $themeName, string $fieldType): FieldProviderInterface
     {
         $theme = $this->getThemeProviderByName($themeName);
@@ -80,6 +99,24 @@ class ThemeManagerService implements ThemeManagerServiceInterface
 
         throw new ThemeProviderException(
             sprintf('Can not find field "%s" in theme "%s"', $fieldType, $themeName)
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getThemeWidgetProvider(string $themeName, string $widgetType): WidgetProviderInterface
+    {
+        $theme = $this->getThemeProviderByName($themeName);
+
+        foreach ($theme->getWidgets() as $widget) {
+            if ($widget->getType() === $widgetType) {
+                return $widget;
+            }
+        }
+
+        throw new ThemeProviderException(
+            sprintf('Can not find widget "%s" in theme "%s"', $widgetType, $themeName)
         );
     }
 }

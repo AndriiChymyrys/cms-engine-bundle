@@ -13,6 +13,7 @@ use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\TimestampAbleEntit
  *
  * @package WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Entity\Cms
  * !!hasLifecycleCallbacks
+ * !!repositoryClass App\Repository\Cms\WidgetRepository
  */
 class Widget
 {
@@ -35,6 +36,11 @@ class Widget
      * @ORM\Column(name="config", type="json", nullable=true, options={"jsonb"=true})
      */
     protected array $config;
+
+    /**
+     * @ORM\Column(name="widget_order", type="integer", nullable=true)
+     */
+    protected int|null $order = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Cms\Content", inversedBy="contents")
@@ -87,6 +93,26 @@ class Widget
     public function setContent(?Content $content): self
     {
         $this->content = $content;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getOrder(): ?int
+    {
+        return $this->order;
+    }
+
+    /**
+     * @param int|null $order
+     *
+     * @return $this
+     */
+    public function setOrder(?int $order): self
+    {
+        $this->order = $order;
 
         return $this;
     }

@@ -23,8 +23,6 @@ class ContentController extends AbstractController
 
     public function getEditView(
         int $pageId,
-        string $contentBlock,
-        string $content,
         string $contentType,
         string $contentKey,
         DomainInteractionInterface $domainInteraction

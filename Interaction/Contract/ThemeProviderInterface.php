@@ -28,4 +28,9 @@ interface ThemeProviderInterface
      * @return array<FieldProviderInterface>
      */
     public function getFields(): array;
+
+    /**
+     * @return array<WidgetProviderInterface>
+     */
+    public function getWidgets(): array;
 }

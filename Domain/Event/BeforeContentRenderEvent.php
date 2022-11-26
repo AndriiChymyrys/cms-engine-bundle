@@ -9,7 +9,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 class BeforeContentRenderEvent extends Event
 {
     /** @var string */
-    public const NAME = 'cms.content';
+    public const NAME = 'cms.content.before_render';
 
     /**
      * @param mixed $value

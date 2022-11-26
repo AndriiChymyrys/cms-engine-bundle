@@ -40,11 +40,6 @@ class Content
     protected string $type;
 
     /**
-     * @ORM\Column(name="content_order", type="integer")
-     */
-    protected int $order;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Cms\ContentBlock", inversedBy="contents")
      * @ORM\JoinColumn(name="content_block_id", referencedColumnName="id")
      */
@@ -110,26 +105,6 @@ class Content
     public function setType(string $type): self
     {
         $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getOrder(): ?int
-    {
-        return $this->order;
-    }
-
-    /**
-     * @param int $order
-     *
-     * @return $this
-     */
-    public function setOrder(int $order): self
-    {
-        $this->order = $order;
 
         return $this;
     }

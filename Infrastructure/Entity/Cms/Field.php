@@ -40,7 +40,12 @@ class Field
     /**
      * @ORM\Column(name="config", type="json", nullable=true, options={"jsonb"=true})
      */
-    protected array $config;
+    protected array|null $config = null;
+
+    /**
+     * @ORM\Column(name="field_order", type="integer", nullable=true)
+     */
+    protected int|null $order = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Cms\Content", inversedBy="fields")
@@ -143,9 +148,9 @@ class Field
     }
 
     /**
-     * @return array
+     * @return array|null
      */
-    public function getConfig(): array
+    public function getConfig(): ?array
     {
         return $this->config;
     }
@@ -158,6 +163,26 @@ class Field
     public function setConfig(?array $config): self
     {
         $this->config = $config;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getOrder(): ?int
+    {
+        return $this->order;
+    }
+
+    /**
+     * @param int|null $order
+     *
+     * @return $this
+     */
+    public function setOrder(?int $order): self
+    {
+        $this->order = $order;
 
         return $this;
     }

@@ -11,6 +11,8 @@ class ContentTypeDto
     public int|null $id;
     public bool $saved;
     public mixed $value;
+    public array $configs;
+    public int $order;
 
     public function __construct(array $data)
     {
@@ -19,5 +21,7 @@ class ContentTypeDto
         $this->id = $data['id'] ?? null;
         $this->saved = $data['saved'] ?? false;
         $this->value = $data['value'] ?? null;
+        $this->configs = $data['configs'] ?? [];
+        $this->order = $data['order'] ?? 1;
     }
 }

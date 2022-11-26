@@ -71,10 +71,8 @@ export default {
                 })
         },
         getTypeContent() {
-            let url = '/cms/api/content/edit-view/{pageId}/{contentBlock}/{content}/{contentType}/{contentKey}'
+            let url = '/cms/api/content/edit-view/{pageId}/{contentType}/{contentKey}'
                 .replace('{pageId}', this.getPage.id)
-                .replace('{contentBlock}', this.blockName)
-                .replace('{content}', this.contentName)
                 .replace('{contentType}', this.selectedType)
                 .replace('{contentKey}', this.contentKey)
 

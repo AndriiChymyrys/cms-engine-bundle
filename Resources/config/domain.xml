@@ -51,6 +51,8 @@
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\PageService">
             <argument type="service" key="$fieldBlockType"
                       id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\BlockType\FieldBlockTypeInterface"/>
+            <argument type="service" key="$widgetBlockType"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\BlockType\WidgetBlockTypeInterface"/>
             <argument type="service" key="$entityManager"
                       id="Doctrine\ORM\EntityManagerInterface"/>
             <argument type="service" key="$contentViewFactory"
@@ -67,10 +69,24 @@
                       id="Doctrine\ORM\EntityManagerInterface"/>
             <argument type="service" key="$eventDispatcher"
                       id="Symfony\Component\EventDispatcher\EventDispatcherInterface"/>
+            <argument type="service" key="$contentViewFactory"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ContentView\ContentViewFactoryInterface"/>
         </service>
 
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\BlockType\FieldBlockTypeInterface"
                  alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\BlockType\FieldBlockType"/>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\BlockType\WidgetBlockType">
+            <argument type="service" key="$entityManager"
+                      id="Doctrine\ORM\EntityManagerInterface"/>
+            <argument type="service" key="$eventDispatcher"
+                      id="Symfony\Component\EventDispatcher\EventDispatcherInterface"/>
+            <argument type="service" key="$contentViewFactory"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ContentView\ContentViewFactoryInterface"/>
+        </service>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\BlockType\WidgetBlockTypeInterface"
+                 alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\BlockType\WidgetBlockType"/>
 
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\Content\ContentRender">
             <argument type="service" key="$entityManager"
@@ -95,6 +111,8 @@
             <argument type="collection" key="$contentTypes">
                 <argument type="service" key="field"
                           id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Available\AvailableFieldType"/>
+                <argument type="service" key="widget"
+                          id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Available\AvailableWidgetType"/>
             </argument>
         </service>
 
@@ -106,10 +124,17 @@
                       id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeProviderRegistryInterface"/>
         </service>
 
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Available\AvailableWidgetType">
+            <argument key="$providerRegistry" type="service"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeProviderRegistryInterface"/>
+        </service>
+
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ContentView\ContentViewFactory">
             <argument type="collection" key="$views">
                 <argument type="service" key="field"
                           id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ContentView\View\FieldContentViewPage"/>
+                <argument type="service" key="widget"
+                          id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ContentView\View\WidgetContentViewPage"/>
             </argument>
         </service>
 
@@ -117,8 +142,11 @@
                  alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ContentView\ContentViewFactory"/>
 
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ContentView\View\FieldContentViewPage">
-            <argument type="service" key="$entityManager"
-                      id="Doctrine\ORM\EntityManagerInterface"/>
+            <argument type="service" key="$themeManagerService"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeManagerServiceInterface"/>
+        </service>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ContentView\View\WidgetContentViewPage">
             <argument type="service" key="$themeManagerService"
                       id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeManagerServiceInterface"/>
         </service>

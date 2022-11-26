@@ -20,7 +20,7 @@
            controller="WideMorph\Cms\Bundle\CmsEngineBundle\Presentation\Controller\Backoffice\Api\ContentController::getAvailableByType">
     </route>
 
-    <route id="api_backoffice_edit_page_field_edit_view" path="/api/content/edit-view/{pageId}/{contentBlock}/{content}/{contentType}/{contentKey}" methods="GET"
+    <route id="api_backoffice_edit_page_field_edit_view" path="/api/content/edit-view/{pageId}/{contentType}/{contentKey}" methods="GET"
            controller="WideMorph\Cms\Bundle\CmsEngineBundle\Presentation\Controller\Backoffice\Api\ContentController::getEditView">
     </route>
 

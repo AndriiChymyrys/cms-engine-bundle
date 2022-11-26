@@ -59,7 +59,7 @@ class PageController extends AbstractController
         $themeProvider = $domainInteraction->getThemeManagerService()->getThemeProviderByName($page->getTheme());
         $contentBlocks = $domainInteraction->getTwigLayoutService()->getContentBlocks($page);
         $contentBlocks = $domainInteraction->getPageService()->fetchPageBlocks($page, $contentBlocks);
-        $contentTypes = ContentTypeEnum::cases();
+        $contentTypes = [ContentTypeEnum::FIELD, ContentTypeEnum::WIDGET];
 
         return $this->render(
             '@CmsEngine/backoffice/page/edit.html.twig',

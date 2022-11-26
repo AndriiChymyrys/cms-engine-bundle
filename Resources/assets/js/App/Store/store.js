@@ -40,7 +40,7 @@ const CmsEngine = {
         },
         UPDATE_CONTENT_TYPE_BY_ID: (state, {blockName, contentName, id, data}) => {
             let i = state.contentBlocks[blockName][contentName].findIndex(o => o.id === id);
-            state.contentBlocks[blockName][contentName][i] = {...data, ...state.contentBlocks[blockName][contentName][i]};
+            state.contentBlocks[blockName][contentName][i] = {...state.contentBlocks[blockName][contentName][i], ...data};
         },
         DELETE_CONTENT_TYPE: (state, {blockName, contentName, id}) => {
             if (state.contentBlocks[blockName][contentName]) {
@@ -71,7 +71,7 @@ const CmsEngine = {
     },
     getters: {
         getNextContentTypeIndex: (state) => ({blockName, contentName}) => {
-            if (!state.contentBlocks[blockName][contentName]) {
+            if (!state.contentBlocks[blockName][contentName].length) {
                 return 1;
             }
 

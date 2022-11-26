@@ -6,6 +6,7 @@ namespace WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Repository\Cms;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Dto\ContentTypeDto;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Entity\Cms\Field;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Enum\DatabaseFieldTypeEnum;
@@ -36,11 +37,13 @@ class FieldRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    public function updateFieldContent(Field $field, mixed $value): void
+    public function updateFieldContent(Field $field, mixed $value, ContentTypeDto $contentData): void
     {
         $repository = $this->getFieldTypeRepository($field);
 
         $content = $repository->findOneBy(['field' => $field->getId()]);
+
+        $field->setConfig($contentData->configs)->setOrder($contentData->order);
 
         if (!$content) {
             $contentEntityName = $this->getFieldTypeEntityName($field);

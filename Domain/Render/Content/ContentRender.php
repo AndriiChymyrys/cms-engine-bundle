@@ -89,7 +89,7 @@ class ContentRender implements ContentRenderInterface
         ContentTypeEnum $contentTypeEnum
     ): BeforeContentRenderEvent {
         $eventName = sprintf(
-            '%s.%s.%s.%s.before_render',
+            '%s.%s.%s.%s',
             BeforeContentRenderEvent::NAME,
             $contentTypeEnum->value,
             $field->getTheme(),
