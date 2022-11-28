@@ -6,9 +6,11 @@ namespace WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait;
 
 use Doctrine\ORM\Mapping as ORM;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Entity\Cms\Page;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Entity\Cms\Field;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Entity\Cms\Widget;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Entity\Cms\ContentBlock;
 
-trait ThemeAwareTrait
+trait ThemeAwareEntityTrait
 {
     /**
      * @ORM\Column(name="theme", type="string")
@@ -26,7 +28,7 @@ trait ThemeAwareTrait
     /**
      * @param string $theme
      *
-     * @return ThemeAwareTrait|ContentBlock|Page
+     * @return Page|ContentBlock|Field|Widget|ThemeAwareEntityTrait
      */
     public function setTheme(string $theme): self
     {

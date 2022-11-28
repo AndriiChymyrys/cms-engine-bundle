@@ -10,7 +10,7 @@ use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Entity\Cms\Field;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Entity\Cms\Widget;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Entity\Cms\ContentBlock;
 
-trait LayoutAwareTrait
+trait LayoutAwareEntityTrait
 {
     /**
      * @ORM\Column(name="layout", type="string")
@@ -28,7 +28,7 @@ trait LayoutAwareTrait
     /**
      * @param string $layout
      *
-     * @return Field|ContentBlock|Page|Widget|ThemeAwareTrait
+     * @return Page|ContentBlock|Field|Widget|LayoutAwareEntityTrait
      */
     public function setLayout(string $layout): self
     {

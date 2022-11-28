@@ -12,7 +12,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Dto\ContentTypeDto;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Enum\ContentTypeEnum;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Event\BeforeContentTypeSaveEvent;
-use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Event\BeforeWidgetSaveContentEvent;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ContentView\ContentViewFactoryInterface;
 
 class WidgetBlockType implements WidgetBlockTypeInterface

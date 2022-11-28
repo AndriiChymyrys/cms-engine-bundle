@@ -8,8 +8,8 @@ use App\Entity\Cms\Content;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\ThemeAwareTrait;
-use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\LayoutAwareTrait;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\ThemeAwareEntityTrait;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\LayoutAwareEntityTrait;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\TimestampAbleEntityTrait;
 
 /**
@@ -22,8 +22,8 @@ use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\TimestampAbleEntit
 class ContentBlock
 {
     use TimestampAbleEntityTrait;
-    use ThemeAwareTrait;
-    use LayoutAwareTrait;
+    use ThemeAwareEntityTrait;
+    use LayoutAwareEntityTrait;
 
     /**
      * @ORM\Id

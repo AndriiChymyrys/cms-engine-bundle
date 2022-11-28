@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Entity\Cms\Field;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Entity\Cms\Widget;
 
-trait ProviderThemeTrait
+trait ProviderThemeEntityTrait
 {
     /**
      * @ORM\Column(name="provide_theme", type="string")
@@ -26,7 +26,7 @@ trait ProviderThemeTrait
     /**
      * @param string $provideTheme
      *
-     * @return Widget|Field|ProviderThemeTrait
+     * @return Widget|Field|ProviderThemeEntityTrait
      */
     public function setProvideTheme(string $provideTheme): self
     {
