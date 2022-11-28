@@ -57,6 +57,7 @@ class FieldBlockType implements FieldBlockTypeInterface
         $entityField
             ->setType($contentData->contentKey)
             ->setLayout($page->getLayout())
+            ->setTheme($page->getTheme())
             ->setProvideTheme($contentData->typeTheme)
             ->setContent($content)
             ->setConfig($contentData->configs)

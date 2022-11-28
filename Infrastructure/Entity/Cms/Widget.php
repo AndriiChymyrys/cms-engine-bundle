@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Entity\Cms;
 
 use Doctrine\ORM\Mapping as ORM;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\ThemeAwareTrait;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\ProviderThemeTrait;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\LayoutAwareTrait;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\TimestampAbleEntityTrait;
@@ -21,6 +22,7 @@ class Widget
     use TimestampAbleEntityTrait;
     use ProviderThemeTrait;
     use LayoutAwareTrait;
+    use ThemeAwareTrait;
 
     /**
      * @ORM\Id

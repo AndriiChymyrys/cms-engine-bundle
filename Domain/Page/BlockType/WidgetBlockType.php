@@ -33,6 +33,7 @@ class WidgetBlockType implements WidgetBlockTypeInterface
         $widget = new Widget();
         $widget
             ->setProvideTheme($contentData->typeTheme)
+            ->setTheme($page->getTheme())
             ->setLayout($page->getLayout())
             ->setConfig($contentData->configs)
             ->setType($contentData->contentKey)
