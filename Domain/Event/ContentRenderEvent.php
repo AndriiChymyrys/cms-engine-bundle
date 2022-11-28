@@ -6,15 +6,16 @@ namespace WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Event;
 
 use Symfony\Contracts\EventDispatcher\Event;
 
-class BeforeContentRenderEvent extends Event
+class ContentRenderEvent extends Event
 {
     /** @var string */
-    public const NAME = 'cms.content.before_render';
+    public const NAME = 'cms.content.render';
 
     /**
      * @param mixed $value
+     * @param array|null $configs
      */
-    public function __construct(protected mixed $value)
+    public function __construct(protected mixed $value, protected ?array $configs = [])
     {
     }
 
@@ -34,5 +35,21 @@ class BeforeContentRenderEvent extends Event
     public function getValue(): mixed
     {
         return $this->value;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getConfigs(): ?array
+    {
+        return $this->configs;
+    }
+
+    /**
+     * @param array $configs
+     */
+    public function setConfigs(array $configs): void
+    {
+        $this->configs = $configs;
     }
 }

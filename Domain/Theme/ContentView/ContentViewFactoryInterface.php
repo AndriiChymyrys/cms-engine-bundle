@@ -11,7 +11,6 @@ use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ContentView\View\ContentVi
 interface ContentViewFactoryInterface
 {
     public function getContentView(
-        Page $page,
         ContentTypeEnum $contentType,
     ): ContentViewTypeInterface;
 }

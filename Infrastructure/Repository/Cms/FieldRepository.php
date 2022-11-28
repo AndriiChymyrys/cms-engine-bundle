@@ -37,13 +37,13 @@ class FieldRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    public function updateFieldContent(Field $field, mixed $value, ContentTypeDto $contentData): void
+    public function updateFieldContent(Field $field, mixed $value, array $configs, ContentTypeDto $contentData): void
     {
         $repository = $this->getFieldTypeRepository($field);
 
         $content = $repository->findOneBy(['field' => $field->getId()]);
 
-        $field->setConfig($contentData->configs)->setOrder($contentData->order);
+        $field->setConfig($configs)->setOrder($contentData->order);
 
         if (!$content) {
             $contentEntityName = $this->getFieldTypeEntityName($field);

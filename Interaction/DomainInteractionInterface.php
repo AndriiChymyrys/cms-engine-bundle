@@ -6,6 +6,7 @@ namespace WideMorph\Cms\Bundle\CmsEngineBundle\Interaction;
 
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\PageServiceInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Layout\TwigLayoutServiceInterface;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\PageRenderFactoryInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeManagerServiceInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ContentView\ContentViewFactoryInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Available\AvailableContentTypesFactoryInterface;
@@ -41,4 +42,9 @@ interface DomainInteractionInterface
      * @return ContentViewFactoryInterface
      */
     public function getContentViewFactory(): ContentViewFactoryInterface;
+
+    /**
+     * @return PageRenderFactoryInterface
+     */
+    public function getPageRenderFactory(): PageRenderFactoryInterface;
 }

@@ -43,7 +43,7 @@ class PageService implements PageServiceInterface
                 foreach ($contentData as $content) {
                     $contentDto = new ContentTypeDto($content);
                     $type = ContentTypeEnum::from($contentDto->contentType);
-                    $entityContent = $this->getContent($entityContentBlock, $type, $contentName);
+                    $entityContent = $this->getContent($entityContentBlock, $contentName);
                     $entityContentValue = $this->getContentValue(
                         $entityContent,
                         $type,
@@ -104,13 +104,12 @@ class PageService implements PageServiceInterface
 
     protected function getContent(
         ContentBlock $contentBlock,
-        ContentTypeEnum $contentTypeEnum,
         string $contentName
     ): Content {
         $entityContent = null;
 
         foreach ($contentBlock->getContents() as $content) {
-            if ($content->getName() === $contentName && $content->getType() === $contentTypeEnum->value) {
+            if ($content->getName() === $contentName) {
                 $entityContent = $content;
             }
         }
@@ -118,8 +117,7 @@ class PageService implements PageServiceInterface
         if (!$entityContent) {
             $entityContent = new Content();
             $entityContent->setName($contentName)
-                ->setContentBlock($contentBlock)
-                ->setType($contentTypeEnum->value);
+                ->setContentBlock($contentBlock);
 
             $contentBlock->addContent($entityContent);
 

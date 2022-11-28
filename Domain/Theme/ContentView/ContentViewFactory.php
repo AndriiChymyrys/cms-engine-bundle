@@ -15,10 +15,8 @@ class ContentViewFactory implements ContentViewFactoryInterface
     {
     }
 
-    public function getContentView(
-        Page $page,
-        ContentTypeEnum $contentType,
-    ): ContentViewTypeInterface {
+    public function getContentView(ContentTypeEnum $contentType): ContentViewTypeInterface
+    {
         if (isset($this->views[$contentType->value])) {
             return $this->views[$contentType->value];
         }

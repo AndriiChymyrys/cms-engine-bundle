@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Enum\PageStatusEnum;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\ThemeAwareTrait;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\LayoutAwareTrait;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\TimestampAbleEntityTrait;
 
 /**
@@ -23,6 +24,7 @@ class Page
 {
     use TimestampAbleEntityTrait;
     use ThemeAwareTrait;
+    use LayoutAwareTrait;
 
     /**
      * @ORM\Id

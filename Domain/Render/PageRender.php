@@ -6,7 +6,7 @@ namespace WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render;
 
 use App\Entity\Cms\Page;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Enum\RouteParameterEnum;
-use WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\DomainInteractionInterface;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeManagerServiceInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\Contract\ThemeProviderInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\Contract\LayoutProviderInterface;
 
@@ -14,19 +14,29 @@ class PageRender implements PageRenderInterface
 {
     protected Page $page;
 
+    protected array $pageData;
+
     protected LayoutProviderInterface $layoutProvider;
 
     protected ThemeProviderInterface $themeProvider;
 
-    public function __construct(protected array $pageData, protected DomainInteractionInterface $domainInteraction)
+    public function __construct(protected ThemeManagerServiceInterface $themeManagerService)
     {
+    }
+
+    public function init(array $attributes): self
+    {
+        $this->pageData = $attributes;
+
         $this->page = $this->pageData[RouteParameterEnum::PAGE->value];
-        $this->themeProvider = $this->domainInteraction
-            ->getThemeManagerService()
+
+        $this->themeProvider = $this->themeManagerService
             ->getThemeProviderByName($this->page->getTheme());
-        $this->layoutProvider = $this->domainInteraction
-            ->getThemeManagerService()
+
+        $this->layoutProvider = $this->themeManagerService
             ->getThemeLayoutProvider($this->themeProvider, $this->page->getLayout());
+
+        return $this;
     }
 
     public function getLayoutName(): string
@@ -52,5 +62,9 @@ class PageRender implements PageRenderInterface
     public function getPage(): Page
     {
         return $this->page;
+    }
+
+    protected function collectContentTypeAssets(Page $page): void
+    {
     }
 }

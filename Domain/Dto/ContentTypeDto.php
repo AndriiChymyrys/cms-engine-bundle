@@ -7,6 +7,7 @@ namespace WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Dto;
 class ContentTypeDto
 {
     public string $contentType;
+    public string $typeTheme;
     public string $contentKey;
     public int|null $id;
     public bool $saved;
@@ -17,6 +18,7 @@ class ContentTypeDto
     public function __construct(array $data)
     {
         $this->contentType = $data['contentType'] ?? '';
+        $this->typeTheme = $data['typeTheme'] ?? '';
         $this->contentKey = $data['contentKey'] ?? '';
         $this->id = $data['id'] ?? null;
         $this->saved = $data['saved'] ?? false;

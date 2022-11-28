@@ -22,12 +22,12 @@ class FieldContentViewPage implements ContentViewTypeInterface
      * {@inheritDoc}
      */
     public function getEditView(
-        Page $page,
+        string $theme,
         string $contentKey,
         bool $asProvider = false
     ): WidgetProviderInterface|FieldProviderInterface|string {
         $themeField = $this->themeManagerService->getThemeFieldProvider(
-            $page->getTheme(),
+            $theme,
             $contentKey
         );
 

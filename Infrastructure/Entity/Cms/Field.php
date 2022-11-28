@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Entity\Cms;
 
 use Doctrine\ORM\Mapping as ORM;
-use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\ThemeAwareTrait;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\ProviderThemeTrait;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\LayoutAwareTrait;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\TimestampAbleEntityTrait;
 
 /**
@@ -18,7 +19,8 @@ use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\TimestampAbleEntit
 class Field
 {
     use TimestampAbleEntityTrait;
-    use ThemeAwareTrait;
+    use ProviderThemeTrait;
+    use LayoutAwareTrait;
 
     /**
      * @ORM\Id
@@ -43,9 +45,9 @@ class Field
     protected array|null $config = null;
 
     /**
-     * @ORM\Column(name="field_order", type="integer", nullable=true)
+     * @ORM\Column(name="field_order", type="integer", options={"default" : 1})
      */
-    protected int|null $order = null;
+    protected int $order = 1;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Cms\Content", inversedBy="fields")
@@ -168,9 +170,9 @@ class Field
     }
 
     /**
-     * @return int|null
+     * @return int
      */
-    public function getOrder(): ?int
+    public function getOrder(): int
     {
         return $this->order;
     }

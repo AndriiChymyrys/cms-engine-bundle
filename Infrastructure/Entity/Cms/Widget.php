@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Entity\Cms;
 
 use Doctrine\ORM\Mapping as ORM;
-use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\ThemeAwareTrait;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\ProviderThemeTrait;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\LayoutAwareTrait;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\TimestampAbleEntityTrait;
 
 /**
@@ -18,7 +19,8 @@ use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Trait\TimestampAbleEntit
 class Widget
 {
     use TimestampAbleEntityTrait;
-    use ThemeAwareTrait;
+    use ProviderThemeTrait;
+    use LayoutAwareTrait;
 
     /**
      * @ORM\Id
@@ -38,12 +40,12 @@ class Widget
     protected array $config;
 
     /**
-     * @ORM\Column(name="widget_order", type="integer", nullable=true)
+     * @ORM\Column(name="widget_order", type="integer", options={"default" : 1})
      */
-    protected int|null $order = null;
+    protected int $order = 1;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Cms\Content", inversedBy="contents")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Cms\Content", inversedBy="widgets")
      * @ORM\JoinColumn(name="content_id", referencedColumnName="id")
      */
     protected Content|null $content;
@@ -98,21 +100,41 @@ class Widget
     }
 
     /**
-     * @return int|null
+     * @return int
      */
-    public function getOrder(): ?int
+    public function getOrder(): int
     {
         return $this->order;
     }
 
     /**
-     * @param int|null $order
+     * @param int $order
      *
      * @return $this
      */
-    public function setOrder(?int $order): self
+    public function setOrder(int $order): self
     {
         $this->order = $order;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProvideTheme(): string
+    {
+        return $this->provideTheme;
+    }
+
+    /**
+     * @param string $provideTheme
+     *
+     * @return $this
+     */
+    public function setProvideTheme(string $provideTheme): self
+    {
+        $this->provideTheme = $provideTheme;
 
         return $this;
     }

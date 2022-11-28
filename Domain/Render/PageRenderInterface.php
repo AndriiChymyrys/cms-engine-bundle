@@ -19,4 +19,6 @@ interface PageRenderInterface
     public function getAsset(string $assetName): string;
 
     public function getPage(): Page;
+
+    public function init(array $attributes): self;
 }

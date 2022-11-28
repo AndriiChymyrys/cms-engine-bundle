@@ -43,7 +43,7 @@ class ContentTemplate
     protected array $config;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Cms\Field", mappedBy="contentType")
+     * @ORM\OneToMany(targetEntity="App\Entity\Cms\Field", mappedBy="contentTemplate")
      */
     protected Collection $fields;
 

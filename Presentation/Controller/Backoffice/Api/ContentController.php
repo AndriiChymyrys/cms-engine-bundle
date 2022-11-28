@@ -22,19 +22,17 @@ class ContentController extends AbstractController
     }
 
     public function getEditView(
-        int $pageId,
         string $contentType,
+        string $theme,
         string $contentKey,
         DomainInteractionInterface $domainInteraction
     ): Response {
-        $page = $domainInteraction->getPageService()->findOrThrowPageById($pageId);
         $view = $domainInteraction->getContentViewFactory()->getContentView(
-            $page,
-            ContentTypeEnum::tryFrom($contentType)
+            ContentTypeEnum::from($contentType)
         );
 
         return $this->json([
-            'view' => $view->getEditView($page, $contentKey),
+            'view' => $view->getEditView($theme, $contentKey),
         ]);
     }
 

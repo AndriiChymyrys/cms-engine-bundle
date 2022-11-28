@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Dto\ContentTypeDto;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Enum\ContentTypeEnum;
-use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Event\BeforeFieldSaveContentEvent;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Event\BeforeContentTypeSaveEvent;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeManagerServiceInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ContentView\ContentViewFactoryInterface;
 
@@ -49,7 +49,7 @@ class FieldBlockType implements FieldBlockTypeInterface
         $fieldDbType = $this
             ->themeManagerService
             ->getThemeFieldProvider(
-                $page->getTheme(),
+                $contentData->typeTheme,
                 $contentData->contentKey
             )
             ->getDatabaseType()->value;
@@ -57,7 +57,7 @@ class FieldBlockType implements FieldBlockTypeInterface
         $entityField
             ->setType($contentData->contentKey)
             ->setLayout($page->getLayout())
-            ->setTheme($page->getTheme())
+            ->setProvideTheme($contentData->typeTheme)
             ->setContent($content)
             ->setConfig($contentData->configs)
             ->setOrder($contentData->order)
@@ -75,12 +75,12 @@ class FieldBlockType implements FieldBlockTypeInterface
      */
     public function saveField(Field $field, ContentTypeDto $contentData): void
     {
-        $event = $this->fireBeforeSaveEvent($field, $contentData->value);
+        $event = $this->fireBeforeSaveEvent($field, $contentData->value, $contentData->configs);
 
         $this
             ->entityManager
             ->getRepository(Field::class)
-            ->updateFieldContent($field, $event->getValue(), $contentData);
+            ->updateFieldContent($field, $event->getValue(), $event->getConfigs(), $contentData);
     }
 
     /**
@@ -96,8 +96,8 @@ class FieldBlockType implements FieldBlockTypeInterface
 
             $editView = $this
                 ->contentViewFactory
-                ->getContentView($page, ContentTypeEnum::FIELD)
-                ->getEditView($page, $field->getType(), true);
+                ->getContentView(ContentTypeEnum::FIELD)
+                ->getEditView($field->getProvideTheme(), $field->getType(), true);
 
             $contentTypes[] = [
                 'id' => $field->getId(),
@@ -109,6 +109,7 @@ class FieldBlockType implements FieldBlockTypeInterface
                 ),
                 'configs' => $field->getConfig(),
                 'order' => $field->getOrder(),
+                'typeTheme' => $field->getProvideTheme(),
             ];
         }
     }
@@ -116,18 +117,21 @@ class FieldBlockType implements FieldBlockTypeInterface
     /**
      * @param Field $field
      * @param mixed $value
+     * @param array $configs
      *
-     * @return BeforeFieldSaveContentEvent
+     * @return BeforeContentTypeSaveEvent
      */
-    protected function fireBeforeSaveEvent(Field $field, mixed $value): BeforeFieldSaveContentEvent
+    protected function fireBeforeSaveEvent(Field $field, mixed $value, array $configs): BeforeContentTypeSaveEvent
     {
         $eventName = sprintf(
-            '%s.%s.%s',
-            BeforeFieldSaveContentEvent::NAME,
-            $field->getTheme(),
+            '%s.%s.%s.%s',
+            BeforeContentTypeSaveEvent::NAME,
+            ContentTypeEnum::FIELD->value,
+            $field->getProvideTheme(),
             $field->getType()
         );
-        $event = new BeforeFieldSaveContentEvent($value);
+
+        $event = new BeforeContentTypeSaveEvent($value, $configs);
 
         $this->eventDispatcher->dispatch($event, $eventName);
 

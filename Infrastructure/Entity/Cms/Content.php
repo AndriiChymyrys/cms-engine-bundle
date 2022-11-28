@@ -35,11 +35,6 @@ class Content
     protected string $name;
 
     /**
-     * @ORM\Column(name="type", type="string")
-     */
-    protected string $type;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Cms\ContentBlock", inversedBy="contents")
      * @ORM\JoinColumn(name="content_block_id", referencedColumnName="id")
      */
@@ -85,26 +80,6 @@ class Content
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    /**
-     * @param string $type
-     *
-     * @return $this
-     */
-    public function setType(string $type): self
-    {
-        $this->type = $type;
 
         return $this;
     }

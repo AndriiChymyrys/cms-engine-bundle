@@ -11,14 +11,14 @@ use WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\Contract\WidgetProviderInte
 interface ContentViewTypeInterface
 {
     /**
-     * @param Page $page
+     * @param string $theme
      * @param string $contentKey
      * @param bool $asProvider
      *
      * @return WidgetProviderInterface|FieldProviderInterface|string
      */
     public function getEditView(
-        Page $page,
+        string $theme,
         string $contentKey,
         bool $asProvider = false
     ): WidgetProviderInterface|FieldProviderInterface|string;

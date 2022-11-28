@@ -100,6 +100,22 @@
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\Content\ContentRenderInterface"
                  alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\Content\ContentRender"/>
 
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\PageRender">
+            <argument type="service" key="$themeManagerService"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeManagerServiceInterface"/>
+        </service>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\PageRenderInterface"
+                 alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\PageRender"/>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\PageRenderFactory">
+            <argument type="service" key="$pageRender"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\PageRenderInterface"/>
+        </service>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\PageRenderFactoryInterface"
+                 alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\PageRenderFactory"/>
+
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Layout\TwigLayoutService">
             <argument type="service" key="$environment" id="Twig\Environment"/>
         </service>

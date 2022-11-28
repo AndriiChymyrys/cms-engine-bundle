@@ -6,6 +6,7 @@ namespace WideMorph\Cms\Bundle\CmsEngineBundle\Interaction;
 
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Page\PageServiceInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Layout\TwigLayoutServiceInterface;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\PageRenderFactoryInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeManagerServiceInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ContentView\ContentViewFactoryInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Available\AvailableContentTypesFactoryInterface;
@@ -23,6 +24,7 @@ class DomainInteraction implements DomainInteractionInterface
      * @param TwigLayoutServiceInterface $twigLayoutService
      * @param AvailableContentTypesFactoryInterface $availableContentTypesFactory
      * @param ContentViewFactoryInterface $contentViewFactory
+     * @param PageRenderFactoryInterface $pageRenderFactory
      */
     public function __construct(
         protected ThemeManagerServiceInterface $themeManagerService,
@@ -30,6 +32,7 @@ class DomainInteraction implements DomainInteractionInterface
         protected TwigLayoutServiceInterface $twigLayoutService,
         protected AvailableContentTypesFactoryInterface $availableContentTypesFactory,
         protected ContentViewFactoryInterface $contentViewFactory,
+        protected PageRenderFactoryInterface $pageRenderFactory,
     ) {
     }
 
@@ -71,5 +74,13 @@ class DomainInteraction implements DomainInteractionInterface
     public function getContentViewFactory(): ContentViewFactoryInterface
     {
         return $this->contentViewFactory;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPageRenderFactory(): PageRenderFactoryInterface
+    {
+        return $this->pageRenderFactory;
     }
 }

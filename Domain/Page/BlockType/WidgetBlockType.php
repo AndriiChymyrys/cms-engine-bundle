@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Dto\ContentTypeDto;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Enum\ContentTypeEnum;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Event\BeforeContentTypeSaveEvent;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Event\BeforeWidgetSaveContentEvent;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ContentView\ContentViewFactoryInterface;
 
@@ -30,7 +31,8 @@ class WidgetBlockType implements WidgetBlockTypeInterface
         }
 
         $widget = new Widget();
-        $widget->setTheme($page->getTheme())
+        $widget
+            ->setProvideTheme($contentData->typeTheme)
             ->setLayout($page->getLayout())
             ->setConfig($contentData->configs)
             ->setType($contentData->contentKey)
@@ -56,13 +58,14 @@ class WidgetBlockType implements WidgetBlockTypeInterface
         foreach ($content->getWidgets() as $widget) {
             $editView = $this
                 ->contentViewFactory
-                ->getContentView($page, ContentTypeEnum::WIDGET)
-                ->getEditView($page, $widget->getType(), true);
+                ->getContentView(ContentTypeEnum::WIDGET)
+                ->getEditView($widget->getProvideTheme(), $widget->getType(), true);
 
             $contentTypes[] = [
                 'id' => $widget->getId(),
                 'contentType' => ContentTypeEnum::WIDGET->value,
                 'contentKey' => $widget->getType(),
+                'typeTheme' => $widget->getProvideTheme(),
                 'editView' => $editView->getEditView(configs: $widget->getConfig()),
                 'configs' => $widget->getConfig(),
                 'order' => $widget->getOrder(),
@@ -70,15 +73,16 @@ class WidgetBlockType implements WidgetBlockTypeInterface
         }
     }
 
-    protected function fireBeforeSaveEvent(Widget $widget, array $configs): BeforeWidgetSaveContentEvent
+    protected function fireBeforeSaveEvent(Widget $widget, array $configs): BeforeContentTypeSaveEvent
     {
         $eventName = sprintf(
-            '%s.%s.%s',
-            BeforeWidgetSaveContentEvent::NAME,
-            $widget->getTheme(),
+            '%s.%s.%s.%s',
+            BeforeContentTypeSaveEvent::NAME,
+            ContentTypeEnum::FIELD->value,
+            $widget->getProvideTheme(),
             $widget->getType()
         );
-        $event = new BeforeWidgetSaveContentEvent($configs);
+        $event = new BeforeContentTypeSaveEvent(null, $configs);
 
         $this->eventDispatcher->dispatch($event, $eventName);
 

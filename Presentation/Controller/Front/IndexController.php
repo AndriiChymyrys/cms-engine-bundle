@@ -7,7 +7,6 @@ namespace WideMorph\Cms\Bundle\CmsEngineBundle\Presentation\Controller\Front;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\PageRender;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\DomainInteractionInterface;
 
 /**
@@ -27,7 +26,7 @@ class IndexController extends AbstractController
     {
         return $this->render(
             '@CmsEngine/front/index/index.html.twig',
-            ['render' => new PageRender($request->attributes->all(), $domainInteraction)]
+            ['render' => $domainInteraction->getPageRenderFactory()->getPageRender($request->attributes->all())]
         );
     }
 }

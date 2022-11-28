@@ -9,8 +9,8 @@
                 </div>
                 <div class="col-md-2">
                     <select class="form-control" v-model="contentKey" v-if="availableTypes" @change="getTypeContent">
-                        <optgroup :label="key" v-for="(types, key) in availableTypes">
-                            <option v-for="(type, key) in types" :value="key">{{ type }}</option>
+                        <optgroup :label="theme" v-for="(types, theme) in availableTypes">
+                            <option v-for="(name, type) in types" :value="type">{{ name }}</option>
                         </optgroup>
                     </select>
                 </div>
@@ -23,6 +23,9 @@
             <div class="row" v-if="contentData.saved">
                 <div class="col-md-2 mb-4">
                     {{ selectedType }}
+                </div>
+                <div class="col-md-2 mb-4">
+                    {{ typeTheme }}
                 </div>
                 <div class="col-md-2">
                     {{ contentKey }}
@@ -44,10 +47,11 @@ import axios from "axios";
 
 export default {
     name: "ContentType",
-    props: ['blockName', 'contentName', 'contentIndex', 'contentData', 'contentId'],
+    props: ['blockName', 'contentName', 'contentData', 'contentId'],
     data: function () {
         return {
             selectedType: this.contentData.saved ? this.contentData.contentType : null,
+            typeTheme: this.contentData.saved ? this.contentData.typeTheme : null,
             contentKey: this.contentData.saved ? this.contentData.contentKey : null,
             availableTypes: null,
             contentView: this.contentData.saved ? this.contentData.editView : null,
@@ -71,9 +75,11 @@ export default {
                 })
         },
         getTypeContent() {
-            let url = '/cms/api/content/edit-view/{pageId}/{contentType}/{contentKey}'
-                .replace('{pageId}', this.getPage.id)
+            this.findTypeTheme();
+
+            let url = '/cms/api/content/edit-view/{contentType}/{theme}/{contentKey}'
                 .replace('{contentType}', this.selectedType)
+                .replace('{theme}', this.typeTheme)
                 .replace('{contentKey}', this.contentKey)
 
             axios.get(url)
@@ -88,6 +94,7 @@ export default {
                             id: this.contentId,
                             data: {
                                 contentType: this.selectedType,
+                                typeTheme: this.typeTheme,
                                 contentKey: this.contentKey,
                             },
                         });
@@ -103,6 +110,17 @@ export default {
                 contentName: this.contentName,
                 id: this.contentId,
             });
+        },
+        findTypeTheme() {
+            for (let theme in this.availableTypes) {
+                for (let type in this.availableTypes[theme]) {
+                    if (type === this.contentKey) {
+                        this.typeTheme = theme;
+
+                        break;
+                    }
+                }
+            }
         },
         ...mapActions('cmsEngine', ['updateContentTypeById', 'deleteContent'])
     },
