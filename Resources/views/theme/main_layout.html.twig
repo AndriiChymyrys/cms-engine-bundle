@@ -7,8 +7,9 @@
 
     {% block assets %}
     {% endblock assets %}
-    {% block content_assets %}
-    {% endblock content_assets %}
+    {% block content_type_assets %}
+        {{ content_type_assets(render, 'head') }}
+    {% endblock content_type_assets %}
 </head>
 {% endblock head %}
 
@@ -17,8 +18,9 @@
     {% endblock layout_body %}
     {% block assets_bottom %}
     {% endblock assets_bottom %}
-    {% block content_assets_bottom %}
-    {% endblock content_assets_bottom %}
+    {% block content_type_assets_bottom %}
+        {{ content_type_assets(render, 'bottom') }}
+    {% endblock content_type_assets_bottom %}
 {% endblock body %}
 
 {% block footer %}

@@ -31,9 +31,9 @@ class WidgetContentViewPage implements ContentViewTypeInterface
     /**
      * {@inheritDoc}
      */
-    public function getPageView(Page $page, string $contentKey, bool $asProvider = false): WidgetProviderInterface|FieldProviderInterface|string
+    public function getPageView(string $theme, string $contentKey, bool $asProvider = false): WidgetProviderInterface|FieldProviderInterface|string
     {
-        $widget = $this->themeManagerService->getThemeWidgetProvider($page->getTheme(), $contentKey);
+        $widget = $this->themeManagerService->getThemeWidgetProvider($theme, $contentKey);
 
         return $asProvider === false ? $widget->getPageView() : $widget;
     }

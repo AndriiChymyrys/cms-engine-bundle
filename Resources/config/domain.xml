@@ -111,10 +111,30 @@
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\PageRenderFactory">
             <argument type="service" key="$pageRender"
                       id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\PageRenderInterface"/>
+            <argument type="service" key="$assetsRenderFactory"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\Assets\AssetsRenderFactoryInterface"/>
         </service>
 
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\PageRenderFactoryInterface"
                  alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\PageRenderFactory"/>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\Assets\AssetsRenderFactory">
+            <argument type="service" key="$assetsRender"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\Assets\AssetsRenderInterface"/>
+            <argument type="service" key="$entityManager"
+                      id="Doctrine\ORM\EntityManagerInterface"/>
+            <argument type="service" key="$themeManagerService"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeManagerServiceInterface"/>
+        </service>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\Assets\AssetsRenderFactoryInterface"
+                 alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\Assets\AssetsRenderFactory"/>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\Assets\AssetsRender">
+        </service>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\Assets\AssetsRenderInterface"
+                 alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\Assets\AssetsRender"/>
 
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Layout\TwigLayoutService">
             <argument type="service" key="$environment" id="Twig\Environment"/>

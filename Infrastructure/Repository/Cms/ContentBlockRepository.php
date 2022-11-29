@@ -36,4 +36,17 @@ class ContentBlockRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    public function getPageBlocksByLayoutAndTheme(string $layout, string $theme): array
+    {
+        $qb = $this->createQueryBuilder('cb');
+
+        return $qb
+            ->where($qb->expr()->eq('cb.theme', ':theme'))
+            ->andWhere($qb->expr()->eq('cb.layout', ':layout'))
+            ->setParameter('theme', $theme)
+            ->setParameter('layout', $layout)
+            ->getQuery()
+            ->getResult();
+    }
 }

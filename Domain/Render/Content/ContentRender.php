@@ -53,7 +53,6 @@ class ContentRender implements ContentRenderInterface
      */
     public function renderTypes(Content $content, PageRenderInterface $pageRender): Generator
     {
-        $page = $pageRender->getPage();
         $fieldRepository = $this->entityManager->getRepository(Field::class);
         $types = [...$content->getFields(), ...$content->getWidgets()];
 
@@ -73,8 +72,8 @@ class ContentRender implements ContentRenderInterface
             );
 
             yield $this->contentViewFactory
-                ->getContentView($page, $contentType)
-                ->getPageView($page, $type->getType(), true)
+                ->getContentView($contentType)
+                ->getPageView($type->getProvideTheme(), $type->getType(), true)
                 ->getPageView($event->getValue(), $event->getConfigs());
         }
     }
