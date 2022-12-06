@@ -10,6 +10,7 @@ use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\PageRenderFactoryInterfac
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeManagerServiceInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ContentView\ContentViewFactoryInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Available\AvailableContentTypesFactoryInterface;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Publish\PublishServiceInterface;
 
 /**
  * Class DomainInteractionInterface
@@ -47,4 +48,9 @@ interface DomainInteractionInterface
      * @return PageRenderFactoryInterface
      */
     public function getPageRenderFactory(): PageRenderFactoryInterface;
+
+    /**
+     * @return PublishServiceInterface
+     */
+    public function getPublishService(): PublishServiceInterface;
 }

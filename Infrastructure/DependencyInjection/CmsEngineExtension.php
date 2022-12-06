@@ -9,6 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Routing\RouteProvider;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\TemplatePathResolver;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\Contract\ThemeProviderInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\Contract\PackageProviderInterface;
@@ -83,5 +84,11 @@ class CmsEngineExtension extends Extension implements PrependExtensionInterface
 
         $routeProviderDefinition = $container->getDefinition(RouteProvider::class);
         $routeProviderDefinition->replaceArgument('$frontController', $config['front_controller']);
+
+        $paths = $config['theme']['publish'];
+        $templatePathResolverDefinition = $container->getDefinition(TemplatePathResolver::class);
+        $templatePathResolverDefinition->replaceArgument('$templatePath', $paths['templates_path']);
+        $templatePathResolverDefinition->replaceArgument('$contentTemplatesPath', $paths['content_templates_path']);
+        $templatePathResolverDefinition->replaceArgument('$layoutsPath', $paths['layouts_path']);
     }
 }

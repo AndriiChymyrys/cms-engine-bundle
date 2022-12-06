@@ -103,6 +103,8 @@
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\PageRender">
             <argument type="service" key="$themeManagerService"
                       id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeManagerServiceInterface"/>
+            <argument type="service" key="$templatePathResolver"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\TemplatePathResolverInterface"/>
         </service>
 
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\PageRenderInterface"
@@ -186,5 +188,35 @@
             <argument type="service" key="$themeManagerService"
                       id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeManagerServiceInterface"/>
         </service>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Publish\PublishService">
+            <argument type="service" key="$themeManagerService"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeManagerServiceInterface"/>
+            <argument type="service" key="$templatePathResolver"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\TemplatePathResolverInterface"/>
+            <argument type="service" key="$fileManager"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Publish\PublishFileManagerInterface"/>
+        </service>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Publish\PublishServiceInterface"
+                 alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Publish\PublishService"/>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\TemplatePathResolver">
+            <argument key="$bundlesMetadata">%kernel.bundles_metadata%</argument>
+            <argument key="$projectDir">%kernel.project_dir%</argument>
+            <argument key="$templatePath"></argument>
+            <argument key="$contentTemplatesPath"></argument>
+            <argument key="$layoutsPath"></argument>
+        </service>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\TemplatePathResolverInterface"
+                 alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\TemplatePathResolver"/>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Publish\PublishFileManager">
+            <argument type="service" key="$filesystem" id="Symfony\Component\Filesystem\Filesystem"/>
+        </service>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Publish\PublishFileManagerInterface"
+                 alias="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Publish\PublishFileManager"/>
     </services>
 </container>

@@ -33,4 +33,9 @@ interface ThemeProviderInterface
      * @return array<WidgetProviderInterface>
      */
     public function getWidgets(): array;
+
+    /**
+     * @return string|null
+     */
+    public function getContentTemplatesPath(): ?string;
 }

@@ -49,6 +49,14 @@ class ThemeManagerService implements ThemeManagerServiceInterface
     /**
      * {@inheritDoc}
      */
+    public function getAllThemeProviders(): array
+    {
+        return $this->providerRegistry->all();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getThemeLayoutProvider(
         ThemeProviderInterface $themeProvider,
         string $layoutName

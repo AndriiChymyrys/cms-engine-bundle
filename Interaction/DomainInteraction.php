@@ -10,6 +10,7 @@ use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\PageRenderFactoryInterfac
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeManagerServiceInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ContentView\ContentViewFactoryInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Available\AvailableContentTypesFactoryInterface;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Publish\PublishServiceInterface;
 
 /**
  * Class DomainInteraction
@@ -25,6 +26,7 @@ class DomainInteraction implements DomainInteractionInterface
      * @param AvailableContentTypesFactoryInterface $availableContentTypesFactory
      * @param ContentViewFactoryInterface $contentViewFactory
      * @param PageRenderFactoryInterface $pageRenderFactory
+     * @param PublishServiceInterface $publishService
      */
     public function __construct(
         protected ThemeManagerServiceInterface $themeManagerService,
@@ -33,6 +35,7 @@ class DomainInteraction implements DomainInteractionInterface
         protected AvailableContentTypesFactoryInterface $availableContentTypesFactory,
         protected ContentViewFactoryInterface $contentViewFactory,
         protected PageRenderFactoryInterface $pageRenderFactory,
+        protected PublishServiceInterface $publishService,
     ) {
     }
 
@@ -82,5 +85,13 @@ class DomainInteraction implements DomainInteractionInterface
     public function getPageRenderFactory(): PageRenderFactoryInterface
     {
         return $this->pageRenderFactory;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPublishService(): PublishServiceInterface
+    {
+        return $this->publishService;
     }
 }

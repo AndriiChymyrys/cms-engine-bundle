@@ -44,7 +44,7 @@ class AssetsRender implements AssetsRenderInterface
      *
      * @return void
      */
-    protected function sortByPriority(&$paths)
+    protected function sortByPriority(&$paths): void
     {
         uasort($paths, static function ($a, $b) {
             if (isset($a['priority']) || isset($b['priority'])) {

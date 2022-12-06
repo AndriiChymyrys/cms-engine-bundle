@@ -44,6 +44,11 @@ interface ThemeManagerServiceInterface
     public function getThemeProviderByName(string $themeName): ThemeProviderInterface;
 
     /**
+     * @return array<string, ThemeProviderInterface>
+     */
+    public function getAllThemeProviders(): array;
+
+    /**
      * @param string $themeName
      * @param string $fieldType
      *

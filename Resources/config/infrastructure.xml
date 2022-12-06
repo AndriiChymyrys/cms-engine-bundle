@@ -15,5 +15,12 @@
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Twig\PageAssetsExtension">
             <tag name="twig.extension"/>
         </service>
+
+        <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Command\PublishContentTemplateCommand">
+            <argument type="service"
+                      key="$domainInteraction"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\DomainInteractionInterface"/>
+            <tag name="console.command"/>
+        </service>
     </services>
 </container>

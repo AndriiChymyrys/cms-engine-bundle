@@ -6,6 +6,7 @@ namespace WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render;
 
 use App\Entity\Cms\Page;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\Assets\AssetsRenderInterface;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\TemplatePathResolverInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\Contract\ThemeProviderInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\Contract\LayoutProviderInterface;
 
@@ -51,4 +52,9 @@ interface PageRenderInterface
      * @return AssetsRenderInterface
      */
     public function getContentTypeAssets(): AssetsRenderInterface;
+
+    /**
+     * @return TemplatePathResolverInterface
+     */
+    public function getPathResolver(): TemplatePathResolverInterface;
 }

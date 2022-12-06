@@ -32,6 +32,9 @@
             <argument type="service"
                       key="$pageRenderFactory"
                       id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\PageRenderFactoryInterface"/>
+            <argument type="service"
+                      key="$publishService"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\Publish\PublishServiceInterface"/>
         </service>
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\DomainInteractionInterface"
                  alias="WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\DomainInteraction"/>

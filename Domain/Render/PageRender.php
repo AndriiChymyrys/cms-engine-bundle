@@ -7,6 +7,7 @@ namespace WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render;
 use App\Entity\Cms\Page;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\ThemeManagerServiceInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Render\Assets\AssetsRenderInterface;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\TemplatePathResolverInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\Contract\ThemeProviderInterface;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Interaction\Contract\LayoutProviderInterface;
 
@@ -39,9 +40,12 @@ class PageRender implements PageRenderInterface
 
     /**
      * @param ThemeManagerServiceInterface $themeManagerService
+     * @param TemplatePathResolverInterface $templatePathResolver
      */
-    public function __construct(protected ThemeManagerServiceInterface $themeManagerService)
-    {
+    public function __construct(
+        protected ThemeManagerServiceInterface $themeManagerService,
+        protected TemplatePathResolverInterface $templatePathResolver
+    ) {
     }
 
     /**
@@ -69,7 +73,11 @@ class PageRender implements PageRenderInterface
      */
     public function getLayoutName(): string
     {
-        return $this->layoutProvider->getTemplatePath();
+        return $this->templatePathResolver->getFullPublicFileName(
+            $this->themeProvider->getName(),
+            TemplatePathResolverInterface::THEME_LAYOUT_TYPE,
+            $this->layoutProvider->getTemplatePath()
+        );
     }
 
     /**
@@ -110,5 +118,13 @@ class PageRender implements PageRenderInterface
     public function getContentTypeAssets(): AssetsRenderInterface
     {
         return $this->assetsRender;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPathResolver(): TemplatePathResolverInterface
+    {
+        return $this->templatePathResolver;
     }
 }
