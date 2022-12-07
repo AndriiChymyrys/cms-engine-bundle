@@ -53,7 +53,7 @@ class PageController extends AbstractController
      *
      * @return Response
      */
-    public function edit(int $pageId, DomainInteractionInterface $domainInteraction): Response
+    public function editContentBlocks(int $pageId, DomainInteractionInterface $domainInteraction): Response
     {
         $page = $domainInteraction->getPageService()->findOrThrowPageById($pageId);
         $themeProvider = $domainInteraction->getThemeManagerService()->getThemeProviderByName($page->getTheme());
@@ -62,12 +62,32 @@ class PageController extends AbstractController
         $contentTypes = [ContentTypeEnum::FIELD, ContentTypeEnum::WIDGET];
 
         return $this->render(
-            '@CmsEngine/backoffice/page/edit.html.twig',
+            '@CmsEngine/backoffice/page/edit_content_block.html.twig',
             [
                 'page' => $page,
                 'themeProvider' => $themeProvider,
                 'contentBlocks' => $contentBlocks,
                 'contentTypes' => $contentTypes,
+            ]
+        );
+    }
+
+    /**
+     * @param int $pageId
+     * @param DomainInteractionInterface $domainInteraction
+     *
+     * @return Response
+     */
+    public function editContentTemplates(int $pageId, DomainInteractionInterface $domainInteraction): Response
+    {
+        $page = $domainInteraction->getPageService()->findOrThrowPageById($pageId);
+        $contentTemplates = $domainInteraction->getTwigLayoutService()->getContentTemplates($page);
+
+        return $this->render(
+            '@CmsEngine/backoffice/page/edit_content_template.html.twig',
+            [
+                'page' => $page,
+                'contentTemplates' => $contentTemplates,
             ]
         );
     }

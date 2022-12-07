@@ -13,19 +13,29 @@
     </route>
 
     <route id="backoffice_edit_page" path="/page/edit/{pageId}" methods="GET|POST"
-           controller="WideMorph\Cms\Bundle\CmsEngineBundle\Presentation\Controller\Backoffice\PageController::edit">
+           controller="WideMorph\Cms\Bundle\CmsEngineBundle\Presentation\Controller\Backoffice\PageController::editContentBlocks">
+    </route>
+
+    <route id="backoffice_edit_page_content_template" path="/page/edit/content-template/{pageId}" methods="GET|POST"
+           controller="WideMorph\Cms\Bundle\CmsEngineBundle\Presentation\Controller\Backoffice\PageController::editContentTemplates">
     </route>
 
     <route id="api_backoffice_edit_page_available_content" path="/api/content/available-type/{type}" methods="GET"
            controller="WideMorph\Cms\Bundle\CmsEngineBundle\Presentation\Controller\Backoffice\Api\ContentController::getAvailableByType">
     </route>
 
-    <route id="api_backoffice_edit_page_field_edit_view" path="/api/content/edit-view/{contentType}/{theme}/{contentKey}" methods="GET"
+    <route id="api_backoffice_edit_page_field_edit_view"
+           path="/api/content/edit-view/{contentType}/{theme}/{contentKey}" methods="GET"
            controller="WideMorph\Cms\Bundle\CmsEngineBundle\Presentation\Controller\Backoffice\Api\ContentController::getEditView">
     </route>
 
     <route id="api_backoffice_edit_page_save_content_blocks" path="/api/content/save/{pageId}" methods="POST"
            controller="WideMorph\Cms\Bundle\CmsEngineBundle\Presentation\Controller\Backoffice\Api\ContentController::saveContent">
+    </route>
+
+    <route id="api_backoffice_edit_page_get_content_template_fields" path="/api/content-template/{templateName}/fields/{pageId}"
+           methods="GET"
+           controller="WideMorph\Cms\Bundle\CmsEngineBundle\Presentation\Controller\Backoffice\Api\ContentTemplateController::getContentTemplateFields">
     </route>
 
 </routes>

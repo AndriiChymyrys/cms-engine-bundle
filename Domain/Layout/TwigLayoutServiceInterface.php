@@ -8,5 +8,25 @@ use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Entity\Cms\Page;
 
 interface TwigLayoutServiceInterface
 {
+    /**
+     * @param Page $page
+     *
+     * @return array
+     */
     public function getContentBlocks(Page $page): array;
+
+    /**
+     * @param Page $page
+     *
+     * @return array
+     */
+    public function getContentTemplates(Page $page): array;
+
+    /**
+     * @param Page $page
+     * @param string $contentTemplateName
+     *
+     * @return array
+     */
+    public function getContentTemplateFields(Page $page, string $contentTemplateName): array;
 }

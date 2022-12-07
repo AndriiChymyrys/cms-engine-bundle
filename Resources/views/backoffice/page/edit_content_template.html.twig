@@ -1,0 +1,24 @@
+{% extends '@MorphView/layout.html.twig' %}
+
+{% block page_content %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex p-0">
+                    <h2 class="card-title p-3">Edit {{ page.name }}</h2>
+                    <ul class="nav nav-pills ml-auto p-2">
+                        <li class="nav-item"><a class="nav-link"
+                                                href="{{ path('cms_backoffice_edit_page', {pageId: page.id}) }}"
+                                                data-toggle="tab">Content Blocks</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="javascript:void(0);" data-toggle="tab">Content
+                                Templates</a></li>
+                    </ul>
+                </div>
+            </div>
+            <content-template
+                    :content-templates="{{ contentTemplates|json_encode }}"
+                    :page="{{ page.vueData|json_encode }}">
+            </content-template>
+        </div>
+    </div>
+{% endblock page_content %}
