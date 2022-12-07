@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme;
 
-use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Exception\ThemeProviderException;
-
 class TemplatePathResolver implements TemplatePathResolverInterface
 {
     /**
@@ -26,15 +24,14 @@ class TemplatePathResolver implements TemplatePathResolverInterface
 
     /**
      * {@inheritDoc}
-     *
-     * @throws ThemeProviderException
      */
-    public function getBundleDir(string $templatePath): string
+    public function getBundleDir(string $templatePath): ?string
     {
         $bundleName = $this->extractBundleNameFromPath($templatePath);
 
         if (!isset($this->bundlesMetadata[$bundleName])) {
-            throw new ThemeProviderException(sprintf('Can not find metadata for bundle "%s"', $bundleName));
+            // In case if we have Template from App namespace
+            return null;
         }
 
         $bundleRootPath = $this->bundlesMetadata[$bundleName]['path'];
@@ -65,7 +62,13 @@ class TemplatePathResolver implements TemplatePathResolverInterface
     {
         $templateType = $this->getThemeContentTypePath($templateType);
 
-        return sprintf('%s/%s/%s/%s', $this->templatePath, $themeName, $templateType, basename($filePath));
+        return sprintf(
+            '%s/%s/%s/%s',
+            $this->templatePath,
+            $themeName,
+            $templateType,
+            $this->clearBundleNameFromPath($filePath)
+        );
     }
 
     /**
@@ -73,9 +76,16 @@ class TemplatePathResolver implements TemplatePathResolverInterface
      *
      * @return string
      */
-    protected function extractBundleNameFromPath(string $template): string
+    protected function extractBundleNameFromPath(string $template): ?string
     {
-        $bundleName = substr($template, 0, strpos($template, DIRECTORY_SEPARATOR));
+        $position = strpos($template, DIRECTORY_SEPARATOR);
+
+        if (!$position) {
+            // We can't have "/" in path in case if Template from App namespace
+            return null;
+        }
+
+        $bundleName = substr($template, 0, $position);
 
         return sprintf('%sBundle', str_replace('@', '', $bundleName));
     }
@@ -87,7 +97,9 @@ class TemplatePathResolver implements TemplatePathResolverInterface
      */
     protected function clearBundleNameFromPath(string $template): string
     {
-        return substr($template, strpos($template, DIRECTORY_SEPARATOR), strlen($template));
+        $index = strpos($template, DIRECTORY_SEPARATOR) ?: 0;
+
+        return substr($template, $index, strlen($template));
     }
 
     /**

@@ -20,9 +20,9 @@ interface TemplatePathResolverInterface
     /**
      * @param string $templatePath
      *
-     * @return string
+     * @return string|null
      */
-    public function getBundleDir(string $templatePath): string;
+    public function getBundleDir(string $templatePath): ?string;
 
     /**
      * @param string $themeName

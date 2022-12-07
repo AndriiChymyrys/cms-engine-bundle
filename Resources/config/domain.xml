@@ -140,6 +140,8 @@
 
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Layout\TwigLayoutService">
             <argument type="service" key="$environment" id="Twig\Environment"/>
+            <argument type="service" key="$templatePathResolver"
+                      id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\TemplatePathResolverInterface"/>
         </service>
 
         <service id="WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Layout\TwigLayoutServiceInterface"

@@ -8,14 +8,18 @@ use Twig\Environment;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Entity\Cms\Page;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Twig\Token\ContentNode;
 use WideMorph\Cms\Bundle\CmsEngineBundle\Infrastructure\Twig\Token\ContentBlockNode;
+use WideMorph\Cms\Bundle\CmsEngineBundle\Domain\Theme\TemplatePathResolverInterface;
 
 class TwigLayoutService implements TwigLayoutServiceInterface
 {
     /**
      * @param Environment $environment
+     * @param TemplatePathResolverInterface $templatePathResolver
      */
-    public function __construct(protected Environment $environment)
-    {
+    public function __construct(
+        protected Environment $environment,
+        protected TemplatePathResolverInterface $templatePathResolver,
+    ) {
     }
 
     /**
@@ -27,9 +31,15 @@ class TwigLayoutService implements TwigLayoutServiceInterface
      */
     public function getContentBlocks(Page $page): array
     {
+        $templatePath = $this->templatePathResolver->getFullPublicFileName(
+            $page->getTheme(),
+            TemplatePathResolverInterface::THEME_LAYOUT_TYPE,
+            $page->getLayout(),
+        );
+
         $tokens = $this->environment->parse(
             $this->environment->tokenize(
-                $this->environment->getLoader()->getSourceContext($page->getLayout())
+                $this->environment->getLoader()->getSourceContext($templatePath)
             )
         );
 

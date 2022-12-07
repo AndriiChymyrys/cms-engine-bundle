@@ -53,12 +53,14 @@ class PublishService implements PublishServiceInterface
     {
         foreach ($provider->getLayouts() as $layout) {
             $bundleRootDir = $this->templatePathResolver->getBundleDir($layout->getTemplatePath());
-            $publicDir = $this->templatePathResolver->getPublicDir(
-                $provider->getName(),
-                TemplatePathResolverInterface::THEME_LAYOUT_TYPE
-            );
+            if ($bundleRootDir) {
+                $publicDir = $this->templatePathResolver->getPublicDir(
+                    $provider->getName(),
+                    TemplatePathResolverInterface::THEME_LAYOUT_TYPE
+                );
 
-            $this->fileManager->copyTemplate($bundleRootDir, $publicDir);
+                $this->fileManager->copyTemplate($bundleRootDir, $publicDir);
+            }
         }
     }
 
@@ -73,12 +75,14 @@ class PublishService implements PublishServiceInterface
 
         if ($templatePath) {
             $bundleRootDir = $this->templatePathResolver->getBundleDir($templatePath);
-            $publicDir = $this->templatePathResolver->getPublicDir(
-                $provider->getName(),
-                TemplatePathResolverInterface::THEME_CONTENT_TEMPLATE_TYPE
-            );
+            if ($bundleRootDir) {
+                $publicDir = $this->templatePathResolver->getPublicDir(
+                    $provider->getName(),
+                    TemplatePathResolverInterface::THEME_CONTENT_TEMPLATE_TYPE
+                );
 
-            $this->fileManager->copyRecursive($bundleRootDir, $publicDir);
+                $this->fileManager->copyRecursive($bundleRootDir, $publicDir);
+            }
         }
     }
 }
