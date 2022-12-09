@@ -61,13 +61,14 @@ class TemplatePathResolver implements TemplatePathResolverInterface
     public function getFullPublicFileName(string $themeName, string $templateType, string $filePath): string
     {
         $templateType = $this->getThemeContentTypePath($templateType);
+        $fileName = ltrim($this->clearBundleNameFromPath($filePath), DIRECTORY_SEPARATOR);
 
         return sprintf(
             '%s/%s/%s/%s',
             $this->templatePath,
             $themeName,
             $templateType,
-            $this->clearBundleNameFromPath($filePath)
+            $this->normalizeFileName($fileName),
         );
     }
 
@@ -114,5 +115,19 @@ class TemplatePathResolver implements TemplatePathResolverInterface
             $templateType === TemplatePathResolverInterface::THEME_LAYOUT_TYPE => $this->layoutsPath,
             default => ''
         };
+    }
+
+    /**
+     * @param string $fileName
+     *
+     * @return string
+     */
+    protected function normalizeFileName(string $fileName): string
+    {
+        if (!str_contains($fileName, 'html.twig')) {
+            return $fileName . '.html.twig';
+        }
+
+        return $fileName;
     }
 }

@@ -15,8 +15,6 @@ class ContentTemplateController extends AbstractController
         int $pageId,
         DomainInteractionInterface $domainInteraction
     ): Response {
-        $templateName .= '.html.twig';
-
         $page = $domainInteraction->getPageService()->findOrThrowPageById($pageId);
         $fields = $domainInteraction->getTwigLayoutService()->getContentTemplateFields($page, $templateName);
 
