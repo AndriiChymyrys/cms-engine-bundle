@@ -35,7 +35,9 @@ class ContentTemplateNode extends Node
             ->raw(PHP_EOL)
             ->repr($this->getTemplateLine())
             ->raw(')')
-            ->raw('->display($context);')
+            ->raw('->display(twig_array_merge($context, ')
+            ->raw(sprintf('["contentTemplateName" => "%s"]', $this->getAttribute('name')))
+            ->raw('));')
         ;
     }
 }
